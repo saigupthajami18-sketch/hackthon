@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual Environment
+venv/
+env/
+.venv/
+
+# Environment secrets
+.env
+*.env
+
+# Database
+*.db
+*.sqlite3
+
+# Alembic temp
+alembic/versions/__pycache__/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Uploaded files / media
+uploads/
+media/
+
+# Test cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Constraints (temp)
+constraints.txt
+
+# Google OAuth tokens (secrets)
+token.json
+credentials.json
