@@ -116,13 +116,16 @@ export default function App() {
 
         {/* Company Recruiter Routes */}
         <Route path="/company/dashboard" element={<ProtectedRoute allowedRoles={['company_recruiter']}><CompanyDashboard /></ProtectedRoute>} />
-        <Route path="/company/pipeline" element={<ProtectedRoute allowedRoles={['company_recruiter']}><CandidatePipeline /></ProtectedRoute>} />
-        <Route path="/company/candidate-pipeline" element={<ProtectedRoute allowedRoles={['company_recruiter']}><CandidatePipeline /></ProtectedRoute>} />
-        <Route path="/company/interview-results" element={<ProtectedRoute allowedRoles={['company_recruiter']}><InterviewResults /></ProtectedRoute>} />
         <Route path="/company/job-roles" element={<ProtectedRoute allowedRoles={['company_recruiter']}><JobRoles /></ProtectedRoute>} />
+        <Route path="/company/candidate-pipeline" element={<ProtectedRoute allowedRoles={['company_recruiter']}><CandidatePipeline /></ProtectedRoute>} />
+        <Route path="/company/pipeline" element={<ProtectedRoute allowedRoles={['company_recruiter']}><CandidatePipeline /></ProtectedRoute>} />
         <Route path="/company/interview-panels" element={<ProtectedRoute allowedRoles={['company_recruiter']}><InterviewPanels /></ProtectedRoute>} />
         <Route path="/company/scheduling" element={<ProtectedRoute allowedRoles={['company_recruiter']}><InterviewScheduling /></ProtectedRoute>} />
+        <Route path="/company/interview-results" element={<ProtectedRoute allowedRoles={['company_recruiter']}><InterviewResults /></ProtectedRoute>} />
         <Route path="/company/notifications" element={<ProtectedRoute allowedRoles={['company_recruiter']}><Notifications /></ProtectedRoute>} />
+
+        {/* Fallback Catch-all Route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
