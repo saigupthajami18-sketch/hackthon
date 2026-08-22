@@ -3,18 +3,10 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --color-burgundy: #710912;
-    --color-black: #0D0D0D;
-    --color-gold: #C28D39;
-    --color-espresso: #362822;
-    --color-champagne: #EFE5D2;
-  }
-
   body {
-    background-color: var(--color-black);
-    color: var(--color-champagne);
-    font-family: 'Inter', sans-serif;
+    background-color: #F8FAFC;
+    color: #0F172A;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
@@ -22,44 +14,39 @@
 }
 
 @layer components {
-  /* Advanced Glassmorphism Base */
-  .glass-panel {
-    @apply bg-black/40 backdrop-blur-xl border border-white/10;
-    box-shadow: 
-      0 4px 30px rgba(0, 0, 0, 0.5), 
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      inset 0 0 20px rgba(113, 9, 18, 0.05); /* Subtle burgundy glow inside */
+  /* Clean Card UI */
+  .app-card {
+    @apply bg-white border border-slate-200/80 rounded-2xl shadow-sm transition-all duration-200;
   }
 
-  /* Interactive Elements */
-  .btn-primary {
-    @apply font-ui text-sm uppercase tracking-widest text-champagne bg-gradient-to-br from-[#710912] to-[#4A060C] border-t border-[#A8101C] py-3 px-6 rounded-lg transition-all duration-300;
-    box-shadow: 0 4px 15px rgba(113, 9, 18, 0.4);
+  .app-card-hover {
+    @apply bg-white border border-slate-200/80 rounded-2xl shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200;
   }
 
-  .btn-primary:hover {
-    @apply transform -translate-y-[2px];
-    box-shadow: 0 8px 25px rgba(113, 9, 18, 0.6);
+  /* Primary Blue Button */
+  .btn-blue {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-2.5 px-5 rounded-xl shadow-sm hover:shadow transition-all duration-200 flex items-center justify-center gap-2;
   }
 
-  /* Forms */
-  .input-glass {
-    @apply w-full bg-espresso/50 border border-white/5 rounded-lg py-3 px-4 text-champagne font-body text-sm focus:outline-none focus:border-gold/50 transition-all duration-300;
-  }
-  
-  .input-glass:focus {
-    box-shadow: 0 0 0 2px rgba(194, 141, 57, 0.1), 0 0 15px rgba(113, 9, 18, 0.2);
+  /* Pills & Badges */
+  .badge-green {
+    @apply bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-medium text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5;
   }
 
-  .input-glass::placeholder {
-    @apply text-champagne/40;
+  .badge-blue {
+    @apply bg-blue-50 text-blue-700 border border-blue-200/60 font-medium text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5;
   }
-  
-  /* Typography */
-  .display-title {
-    @apply font-display italic font-semibold tracking-tight;
-    background: linear-gradient(135deg, #EFE5D2 0%, #C28D39 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+
+  .badge-red {
+    @apply bg-rose-50 text-rose-700 border border-rose-200/60 font-medium text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5;
+  }
+
+  .badge-amber {
+    @apply bg-amber-50 text-amber-700 border border-amber-200/60 font-medium text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5;
+  }
+
+  /* Form Inputs */
+  .app-input {
+    @apply w-full bg-white border border-slate-200 rounded-xl py-2.5 px-3.5 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all;
   }
 }

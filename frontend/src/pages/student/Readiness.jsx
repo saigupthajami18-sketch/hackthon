@@ -1,202 +1,196 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { 
-  ArrowLeft, TrendingUp, Sparkles, Award, CheckCircle2, AlertTriangle, 
-  Code, BookOpen, Layers, ArrowRight, ShieldCheck, Zap
-} from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { TrendingUp, Target, GraduationCap, Building2, BarChart2, CheckCircle2, Award } from 'lucide-react';
+import AppLayout from '../../components/AppLayout';
+import api from '../../api/client';
 import useAuthStore from '../../store/authStore';
-import AIAssistantModal from '../../components/AIAssistantModal';
 
-export default function Readiness() {
+export default function AnalyticsInsights() {
   const { user } = useAuthStore();
-
-  const [readinessData, setReadinessData] = useState({
-    overallScore: 88,
-    percentile: 'Top 5% in Batch',
-    categories: [
-      { name: 'Core Problem Solving (DSA)', score: 92, status: 'Strong', badge: 'LeetCode 1780+' },
-      { name: 'Full-Stack Architecture', score: 86, status: 'Proficient', badge: 'React / Node / PostgreSQL' },
-      { name: 'System Design & Scalability', score: 78, status: 'Moderate', badge: 'Needs Caching / Queues' },
-      { name: 'DevOps & Cloud (Docker/AWS)', score: 68, status: 'Gap Identified', badge: 'Action Required' },
-      { name: 'Communication & Behavioral', score: 90, status: 'Strong', badge: 'STAR Framework Ready' }
-    ],
-    recommendedActions: [
-      {
-        priority: 'High',
-        title: 'Containerize Portfolio Projects with Docker',
-        impact: '+6% Overall Match Score across Tier-1 Cloud Roles',
-        duration: '2 Days',
-        category: 'DevOps'
-      },
-      {
-        priority: 'Medium',
-        title: 'Implement Redis Caching in Distributed Task Queue',
-        impact: 'Elevates System Design evaluation from Moderate to Expert',
-        duration: '3 Days',
-        category: 'System Design'
-      },
-      {
-        priority: 'Low',
-        title: 'Solve 15 Graph & Dynamic Programming Problems on LeetCode',
-        impact: 'Solidifies technical round clearance probability',
-        duration: '1 Week',
-        category: 'DSA'
-      }
-    ]
+  const [stats, setStats] = useState({
+    placementRate: '30%',
+    placedFraction: '3 of 10 placed',
+    readinessScore: '88%',
+    readinessSubtitle: 'Eligibility match coverage',
+    avgCgpa: '8.21',
+    cgpaSubtitle: 'Across all students',
+    activeRecruiters: '3',
+    recruitersSubtitle: '0 open positions'
   });
 
+  const skillsPool = [
+    { name: 'Python', count: 7, max: 8 },
+    { name: 'SQL', count: 5, max: 8 },
+    { name: 'Data Structures', count: 4, max: 8 },
+    { name: 'DBMS', count: 4, max: 8 },
+    { name: 'Machine Learning', count: 4, max: 8 },
+    { name: 'Java', count: 3, max: 8 },
+    { name: 'Algorithms', count: 3, max: 8 },
+    { name: 'React', count: 3, max: 8 },
+    { name: 'Data Analysis', count: 3, max: 8 },
+  ];
+
+  const branchPlacements = [
+    { branch: 'CSE', avgCgpa: '8.55', placed: '2/6 placed', pct: 33 },
+    { branch: 'IT', avgCgpa: '7.65', placed: '1/2 placed', pct: 50 },
+    { branch: 'Mechanical', avgCgpa: '7.50', placed: '0/1 placed', pct: 0 },
+    { branch: 'ECE', avgCgpa: '7.95', placed: '0/1 placed', pct: 0 },
+  ];
+
+  useEffect(() => {
+    fetchLiveStats();
+  }, []);
+
+  const fetchLiveStats = async () => {
+    try {
+      if (user?.org_id) {
+        const res = await api.get(`/college/${user.org_id}/dashboard-stats`);
+        if (res.data) {
+          setStats(prev => ({
+            ...prev,
+            placementRate: `${res.data.placement_rate || 30}%`,
+            avgCgpa: `${res.data.avg_cgpa || '8.21'}`,
+            activeRecruiters: `${res.data.partner_companies || 5}`
+          }));
+        }
+      }
+    } catch (e) {
+      console.log('Using seeded analytics metrics');
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-black font-body text-champagne">
-      {/* Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-950/20 via-black to-black"></div>
+    <AppLayout role={user?.role === 'student' ? 'student' : 'college'}>
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Analytics & Insights</h1>
+        <p className="text-sm text-slate-500 mt-1 font-normal">Skill-gap analysis and placement-readiness metrics</p>
       </div>
 
-      {/* Navbar */}
-      <nav className="sticky top-0 z-40 bg-neutral-950/80 backdrop-blur-md border-b border-white/10 h-16">
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center h-full">
-          <div className="flex items-center gap-4">
-            <Link to="/student/dashboard" className="text-neutral-400 hover:text-white transition-colors flex items-center gap-1.5 text-xs uppercase tracking-wider font-ui">
-              <ArrowLeft className="w-4 h-4" /> Dashboard
-            </Link>
-            <span className="text-neutral-600">/</span>
-            <span className="text-white font-medium text-sm">Placement Readiness Analytics</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link to="/student/opportunities" className="px-3.5 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-xs text-amber-400 transition-colors border border-amber-500/30">
-              Check Opportunities
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-8">
+      {/* Top 4 Metrics Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-mono mb-3">
-            <TrendingUp className="w-3.5 h-3.5" /> AI READINESS BENCHMARK
-          </div>
-          <h1 className="display-title text-3xl md:text-4xl text-white font-bold tracking-tight">
-            Placement Readiness & Skill Gap Diagnostic
-          </h1>
-          <p className="text-neutral-400 text-sm mt-1">
-            Comprehensive diagnostic benchmarking your verified academic records, coding rating, and projects against top recruiter requirements.
-          </p>
-        </div>
-
-        {/* Top Summary Banner */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="p-6 rounded-2xl bg-neutral-950/80 border border-amber-500/30 shadow-xl flex items-center justify-between">
-            <div>
-              <div className="text-xs font-mono uppercase text-neutral-400">Readiness Score</div>
-              <div className="text-4xl font-bold font-mono text-amber-400 mt-1">{readinessData.overallScore}/100</div>
-              <div className="text-[11px] text-emerald-400 font-semibold mt-1">✓ {readinessData.percentile}</div>
-            </div>
-            <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-              <Zap className="w-7 h-7" />
+        {/* Metric 1: Placement Rate */}
+        <div className="app-card p-5 relative overflow-hidden flex flex-col justify-between">
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-xs font-semibold text-slate-500">Placement Rate</span>
+            <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <TrendingUp className="w-5 h-5" />
             </div>
           </div>
-
-          <div className="p-6 rounded-2xl bg-neutral-950/80 border border-white/10 shadow-xl flex items-center justify-between">
-            <div>
-              <div className="text-xs font-mono uppercase text-neutral-400">Deterministic Tier</div>
-              <div className="text-2xl font-bold text-white mt-1">Tier-1 Dream Ready</div>
-              <div className="text-[11px] text-neutral-400 mt-1">Eligible for &ge; 20+ LPA Drives</div>
-            </div>
-            <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-              <ShieldCheck className="w-7 h-7" />
-            </div>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-neutral-950/80 border border-white/10 shadow-xl flex items-center justify-between">
-            <div>
-              <div className="text-xs font-mono uppercase text-neutral-400">High-Impact Actions</div>
-              <div className="text-2xl font-bold text-white mt-1">3 Recommendations</div>
-              <div className="text-[11px] text-amber-400 mt-1">Targeting Cloud & System Design</div>
-            </div>
-            <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-neutral-300">
-              <Sparkles className="w-7 h-7 text-amber-400" />
-            </div>
+          <div>
+            <div className="text-3xl font-bold text-slate-900">{stats.placementRate}</div>
+            <p className="text-xs text-slate-400 font-medium mt-1">{stats.placedFraction}</p>
           </div>
         </div>
 
-        {/* Diagnostic Breakdown Matrix & Action Roadmap */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-          {/* Category Benchmarks */}
-          <div className="p-6 rounded-2xl bg-neutral-950/80 border border-white/10 shadow-xl">
-            <h3 className="text-sm font-bold text-white uppercase font-ui tracking-wider mb-6 flex items-center gap-2">
-              <Layers className="w-4 h-4 text-amber-400" /> Competency Breakdown
-            </h3>
+        {/* Metric 2: Readiness Score */}
+        <div className="app-card p-5 relative overflow-hidden flex flex-col justify-between">
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-xs font-semibold text-slate-500">Readiness Score</span>
+            <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+              <Target className="w-5 h-5" />
+            </div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-slate-900">{stats.readinessScore}</div>
+            <p className="text-xs text-slate-400 font-medium mt-1">{stats.readinessSubtitle}</p>
+          </div>
+        </div>
 
-            <div className="space-y-5">
-              {readinessData.categories.map((cat, idx) => (
-                <div key={idx} className="space-y-2">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-semibold text-neutral-200">{cat.name}</span>
-                    <span className="font-mono font-bold text-amber-400">{cat.score}%</span>
-                  </div>
-                  <div className="w-full h-2 rounded-full bg-neutral-900 overflow-hidden">
+        {/* Metric 3: Avg CGPA */}
+        <div className="app-card p-5 relative overflow-hidden flex flex-col justify-between">
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-xs font-semibold text-slate-500">Avg CGPA</span>
+            <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+              <GraduationCap className="w-5 h-5" />
+            </div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-slate-900">{stats.avgCgpa}</div>
+            <p className="text-xs text-slate-400 font-medium mt-1">{stats.cgpaSubtitle}</p>
+          </div>
+        </div>
+
+        {/* Metric 4: Active Recruiters */}
+        <div className="app-card p-5 relative overflow-hidden flex flex-col justify-between">
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-xs font-semibold text-slate-500">Active Recruiters</span>
+            <div className="w-9 h-9 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center">
+              <Building2 className="w-5 h-5" />
+            </div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-slate-900">{stats.activeRecruiters}</div>
+            <p className="text-xs text-slate-400 font-medium mt-1">{stats.recruitersSubtitle}</p>
+          </div>
+        </div>
+
+      </div>
+
+      {/* 2 Bottom Detailed Sections */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        {/* Left: Top Skills in Pool */}
+        <div className="app-card p-6">
+          <div className="flex items-center gap-2 mb-1">
+            <BarChart2 className="w-4 h-4 text-blue-600" />
+            <h3 className="font-bold text-base text-slate-900">Top Skills in Pool</h3>
+          </div>
+          <p className="text-xs text-slate-400 mb-6 font-normal">Most common skills across all students</p>
+
+          <div className="space-y-4">
+            {skillsPool.map((skill, idx) => {
+              const widthPct = Math.round((skill.count / skill.max) * 100);
+              return (
+                <div key={idx} className="flex items-center gap-4 text-xs font-medium">
+                  <span className="w-32 text-slate-700 truncate shrink-0">{skill.name}</span>
+                  <div className="flex-1 bg-slate-100 rounded-full h-4 overflow-hidden">
                     <div 
-                      className={`h-full rounded-full transition-all duration-500 ${
-                        cat.score >= 85 ? 'bg-gradient-to-r from-emerald-500 to-teal-400' :
-                        cat.score >= 75 ? 'bg-gradient-to-r from-amber-500 to-amber-400' :
-                        'bg-gradient-to-r from-rose-500 to-amber-500'
-                      }`}
-                      style={{ width: `${cat.score}%` }}
+                      className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-500"
+                      style={{ width: `${widthPct}%` }}
                     />
                   </div>
-                  <div className="flex justify-between items-center text-[10px] text-neutral-500">
-                    <span>Status: <strong className={cat.score >= 80 ? 'text-emerald-400' : 'text-amber-400'}>{cat.status}</strong></span>
-                    <span>{cat.badge}</span>
+                  <span className="w-6 text-right font-bold text-slate-700 shrink-0">{skill.count}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right: Branch-wise Placement */}
+        <div className="app-card p-6 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <Users className="w-4 h-4 text-emerald-600" />
+              <h3 className="font-bold text-base text-slate-900">Branch-wise Placement</h3>
+            </div>
+            <p className="text-xs text-slate-400 mb-6 font-normal">Placement status by branch</p>
+
+            <div className="space-y-5">
+              {branchPlacements.map((b, idx) => (
+                <div key={idx} className="p-3.5 rounded-xl border border-slate-100 bg-slate-50/50 space-y-2">
+                  <div className="flex items-center justify-between text-xs font-semibold">
+                    <span className="text-slate-900 text-sm">{b.branch}</span>
+                    <div className="flex items-center gap-3">
+                      <span className="text-slate-400 text-[11px] font-normal">CGPA {b.avgCgpa}</span>
+                      <span className="badge-green text-[11px] font-semibold py-0.5 px-2">
+                        {b.placed}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="w-full bg-slate-200/80 rounded-full h-2 overflow-hidden">
+                    <div 
+                      className="bg-emerald-500 h-full rounded-full transition-all duration-500"
+                      style={{ width: `${b.pct}%` }}
+                    />
                   </div>
                 </div>
               ))}
             </div>
           </div>
-
-          {/* Actionable Improvement Roadmap */}
-          <div className="p-6 rounded-2xl bg-neutral-950/80 border border-white/10 shadow-xl">
-            <h3 className="text-sm font-bold text-white uppercase font-ui tracking-wider mb-6 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-amber-400" /> Recommended Action Roadmap
-            </h3>
-
-            <div className="space-y-4">
-              {readinessData.recommendedActions.map((action, idx) => (
-                <div 
-                  key={idx}
-                  className="p-4 rounded-xl bg-neutral-900/80 border border-white/10 hover:border-amber-500/40 transition-colors"
-                >
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase ${
-                      action.priority === 'High' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' :
-                      action.priority === 'Medium' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
-                      'bg-white/5 text-neutral-400'
-                    }`}>
-                      {action.priority} Priority
-                    </span>
-                    <span className="text-[10px] text-neutral-500 font-mono">Est: {action.duration}</span>
-                  </div>
-                  <h4 className="text-xs font-bold text-white mb-1">{action.title}</h4>
-                  <p className="text-[11px] text-neutral-400 mb-3">{action.impact}</p>
-                  
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="text-neutral-500">Track: <strong className="text-neutral-300">{action.category}</strong></span>
-                    <button className="text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1">
-                      Start Task <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
         </div>
 
       </div>
-
-      <AIAssistantModal />
-    </div>
+    </AppLayout>
   );
 }

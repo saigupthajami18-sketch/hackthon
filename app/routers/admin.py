@@ -23,7 +23,7 @@ async def get_pending_students(
     stmt = select(User, Student).join(Student, User.user_id == Student.student_id).where(
         User.role == UserRole.STUDENT,
         User.is_verified == False,
-        User.org_id == current_user.org_id
+        User.org_id == uuid.UUID(current_user.org_id)
     )
     result = await db.execute(stmt)
     rows = result.all()
@@ -31,14 +31,14 @@ async def get_pending_students(
     pending_students = []
     for user, student in rows:
         pending_students.append({
-            "user_id": user.user_id,
+            "user_id": str(user.user_id),
             "name": user.name,
             "email": user.email,
             "roll_no": student.roll_no,
             "department": student.department,
             "branch": student.branch,
             "batch": student.batch,
-            "created_at": user.created_at
+            "created_at": user.created_at.isoformat() if user.created_at else None
         })
     return pending_students
 

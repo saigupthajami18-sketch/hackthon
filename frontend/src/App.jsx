@@ -28,6 +28,9 @@ import CompanyDashboard from './pages/company/Dashboard';
 import CandidatePipeline from './pages/company/CandidatePipeline';
 import InterviewResults from './pages/company/InterviewResults';
 import JobRoles from './pages/company/JobRoles';
+import InterviewPanels from './pages/company/InterviewPanels';
+import InterviewScheduling from './pages/company/InterviewScheduling';
+import Notifications from './pages/company/Notifications';
 
 import useAuthStore from './store/authStore';
 
@@ -51,17 +54,16 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 export default function App() {
   const { isAuthenticated, user, hydrateFromToken, loading } = useAuthStore();
 
-  // On app load: if token exists but state isn't populated, re-hydrate
   useEffect(() => {
     hydrateFromToken();
   }, []);
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-10 h-10 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-neutral-400 text-sm font-mono">Authenticating...</p>
+          <div className="w-10 h-10 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-slate-500 text-sm font-medium">Authenticating...</p>
         </div>
       </div>
     );
@@ -100,6 +102,7 @@ export default function App() {
         <Route path="/student/applications" element={<ProtectedRoute allowedRoles={['student']}><Applications /></ProtectedRoute>} />
         <Route path="/student/interview-center" element={<ProtectedRoute allowedRoles={['student']}><InterviewCenter /></ProtectedRoute>} />
         <Route path="/student/readiness" element={<ProtectedRoute allowedRoles={['student']}><Readiness /></ProtectedRoute>} />
+        <Route path="/student/notifications" element={<ProtectedRoute allowedRoles={['student']}><Notifications /></ProtectedRoute>} />
 
         {/* College Admin Routes */}
         <Route path="/college/dashboard" element={<ProtectedRoute allowedRoles={['college_admin']}><CollegeDashboard /></ProtectedRoute>} />
@@ -117,6 +120,9 @@ export default function App() {
         <Route path="/company/candidate-pipeline" element={<ProtectedRoute allowedRoles={['company_recruiter']}><CandidatePipeline /></ProtectedRoute>} />
         <Route path="/company/interview-results" element={<ProtectedRoute allowedRoles={['company_recruiter']}><InterviewResults /></ProtectedRoute>} />
         <Route path="/company/job-roles" element={<ProtectedRoute allowedRoles={['company_recruiter']}><JobRoles /></ProtectedRoute>} />
+        <Route path="/company/interview-panels" element={<ProtectedRoute allowedRoles={['company_recruiter']}><InterviewPanels /></ProtectedRoute>} />
+        <Route path="/company/scheduling" element={<ProtectedRoute allowedRoles={['company_recruiter']}><InterviewScheduling /></ProtectedRoute>} />
+        <Route path="/company/notifications" element={<ProtectedRoute allowedRoles={['company_recruiter']}><Notifications /></ProtectedRoute>} />
       </Routes>
     </Router>
   );

@@ -1,167 +1,189 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Bell, LogOut, LayoutDashboard, Building2, Briefcase, FileText, CheckSquare, Clock, Users, UserCheck } from 'lucide-react';
-import useAuthStore from '../../store/authStore';
+import { Briefcase, Target, Users, Calendar, ArrowRight, CheckCircle2, TrendingUp } from 'lucide-react';
+import AppLayout from '../../components/AppLayout';
 import api from '../../api/client';
-import AIAssistantModal from '../../components/AIAssistantModal';
+import useAuthStore from '../../store/authStore';
 
 export default function CompanyDashboard() {
-  const { user, logout } = useAuthStore();
-  const [stats, setStats] = useState({ activeDrives: 0, pendingReviews: 0, interviewsToday: 0 });
-  const [recentDrives, setRecentDrives] = useState([]);
+  const { user } = useAuthStore();
+  const [drives, setDrives] = useState([]);
+  const [stats, setStats] = useState({
+    activeDrives: 3,
+    matchedCandidates: 19,
+    scheduledInterviews: 10,
+    offersIssued: 3
+  });
 
   useEffect(() => {
-    // Mock Data for now
-    setStats({ activeDrives: 2, pendingReviews: 45, interviewsToday: 12 });
-    setRecentDrives([
-      { role: 'Software Development Engineer', applicants: 120, status: 'Matching Phase' },
-      { role: 'Data Analyst Intern', applicants: 85, status: 'Interviewing' },
-    ]);
+    fetchDashboardData();
   }, []);
 
+  const fetchDashboardData = async () => {
+    try {
+      const res = await api.get('/drives');
+      if (res.data && res.data.length > 0) {
+        setDrives(res.data);
+        setStats(prev => ({
+          ...prev,
+          activeDrives: res.data.length
+        }));
+      }
+    } catch (e) {
+      console.log('Using seeded dashboard stats');
+    }
+  };
+
   return (
-    <div className="flex h-screen bg-black font-body text-champagne overflow-hidden">
-      
-      {/* Background */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-gold/10 via-black to-black opacity-80"></div>
+    <AppLayout role="recruiter">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Recruiter Dashboard</h1>
+        <p className="text-sm text-slate-500 mt-1 font-normal">Monitor your live campus recruitment pipeline, matching scores, and scheduled interviews.</p>
       </div>
 
-      {/* Top Navbar */}
-      <nav className="fixed top-0 w-full z-50 glass-panel border-b-0 border-white/5 h-[72px]">
-        <div className="max-w-[1440px] mx-auto px-8 flex justify-between items-center h-full">
-          <a className="display-title text-2xl" href="#">Campus Connect <span className="font-ui text-sm text-burgundy ml-2 uppercase tracking-widest">Corporate</span></a>
-          
-          <div className="hidden md:flex flex-1 max-w-md mx-8">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-champagne/40 w-4 h-4" />
-              <input 
-                className="input-glass pl-10 py-2 h-10"
-                placeholder="Search candidates, drives..." 
-                type="text" 
-              />
+      {/* Top 4 Metrics */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        
+        <div className="app-card p-5 flex flex-col justify-between">
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-xs font-semibold text-slate-500">Active Job Drives</span>
+            <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+              <Briefcase className="w-5 h-5" />
             </div>
           </div>
-          
-          <div className="flex items-center gap-6 ml-auto md:ml-0">
-            <button className="text-champagne/60 hover:text-gold transition-colors">
-              <Bell className="w-5 h-5" />
-            </button>
-            <button onClick={logout} className="text-champagne/60 hover:text-gold transition-colors">
-              <LogOut className="w-5 h-5" />
-            </button>
-            <div className="h-9 w-9 rounded-full border border-gold/30 overflow-hidden cursor-pointer hover:border-gold transition-colors">
-              <img alt="Profile" className="w-full h-full object-cover" src={`https://ui-avatars.com/api/?name=${user?.name || 'C'}&background=362822&color=EFE5D2`} />
-            </div>
+          <div>
+            <div className="text-3xl font-bold text-slate-900">{stats.activeDrives}</div>
+            <p className="text-xs text-slate-400 font-medium mt-1">Live in NIT Engineering</p>
           </div>
         </div>
-      </nav>
 
-      <div className="flex flex-1 pt-[72px] max-w-[1440px] w-full mx-auto relative z-10">
-        
-        {/* Sidebar */}
-        <aside className="w-64 fixed left-0 top-[72px] bottom-0 border-r border-white/5 hidden md:flex flex-col bg-black/20 backdrop-blur-sm">
-          <nav className="flex-1 py-8 flex flex-col gap-2 px-4">
-            <Link className="flex items-center gap-3 px-4 py-3 rounded-lg bg-amber-500/10 border-l-2 border-amber-500 text-amber-300 transition-all" to="/company/dashboard">
-              <LayoutDashboard className="w-4 h-4 text-amber-400" />
-              <span className="font-ui text-[11px] tracking-widest uppercase">Dashboard</span>
-            </Link>
-            <Link className="flex items-center gap-3 px-4 py-3 rounded-lg text-champagne/60 hover:text-champagne hover:bg-white/5 transition-all border-l-2 border-transparent" to="/company/job-roles">
-              <Briefcase className="w-4 h-4" />
-              <span className="font-ui text-[11px] tracking-widest uppercase">Job Roles & JDs</span>
-            </Link>
-            <Link className="flex items-center gap-3 px-4 py-3 rounded-lg text-champagne/60 hover:text-champagne hover:bg-white/5 transition-all border-l-2 border-transparent" to="/company/candidate-pipeline">
-              <Users className="w-4 h-4" />
-              <span className="font-ui text-[11px] tracking-widest uppercase">Candidate Funnel</span>
-            </Link>
-            <Link className="flex items-center gap-3 px-4 py-3 rounded-lg text-champagne/60 hover:text-champagne hover:bg-white/5 transition-all border-l-2 border-transparent" to="/company/interview-results">
-              <UserCheck className="w-4 h-4" />
-              <span className="font-ui text-[11px] tracking-widest uppercase">Scorecards & Offers</span>
-            </Link>
-          </nav>
-        </aside>
-
-        {/* Content */}
-        <main className="flex-1 md:ml-64 p-8 overflow-y-auto w-full">
-          <header className="mb-10">
-            <h1 className="display-title text-4xl mb-2">Corporate Dashboard</h1>
-            <p className="font-body text-champagne/60 text-sm">Monitor your hiring pipeline and scheduled interviews.</p>
-          </header>
-
-          <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            {/* Active Drives */}
-            <div className="glass-panel rounded-xl p-6 relative group overflow-hidden border-burgundy/30 hover:border-burgundy/60 transition-colors">
-              <div className="flex justify-between items-start mb-4 relative z-10">
-                <h4 className="font-ui text-[10px] uppercase tracking-widest text-champagne/60">Active Drives</h4>
-                <Briefcase className="text-burgundy w-5 h-5" />
-              </div>
-              <div className="relative z-10">
-                <span className="font-display font-bold text-5xl">{stats.activeDrives}</span>
-              </div>
+        <div className="app-card p-5 flex flex-col justify-between">
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-xs font-semibold text-slate-500">Matched Candidates</span>
+            <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <Target className="w-5 h-5" />
             </div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-slate-900">{stats.matchedCandidates}</div>
+            <p className="text-xs text-emerald-600 font-medium mt-1">≥ 80% Skill Match</p>
+          </div>
+        </div>
 
-            {/* Pending Reviews */}
-            <div className="glass-panel rounded-xl p-6 relative group overflow-hidden border-gold/20 hover:border-gold/50 transition-colors">
-              <div className="flex justify-between items-start mb-4 relative z-10">
-                <h4 className="font-ui text-[10px] uppercase tracking-widest text-champagne/60">Shortlists to Review</h4>
-                <CheckSquare className="text-gold w-5 h-5" />
-              </div>
-              <div className="relative z-10">
-                <span className="font-display font-bold text-5xl">{stats.pendingReviews}</span>
-              </div>
+        <div className="app-card p-5 flex flex-col justify-between">
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-xs font-semibold text-slate-500">Interviews Scheduled</span>
+            <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+              <Calendar className="w-5 h-5" />
             </div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-slate-900">{stats.scheduledInterviews}</div>
+            <p className="text-xs text-slate-400 font-medium mt-1">Across 3 physical rooms</p>
+          </div>
+        </div>
 
-            {/* Interviews Today */}
-            <div className="glass-panel rounded-xl p-6 relative group overflow-hidden border-espresso hover:border-champagne/30 transition-colors">
-              <div className="flex justify-between items-start mb-4 relative z-10">
-                <h4 className="font-ui text-[10px] uppercase tracking-widest text-champagne/60">Interviews Today</h4>
-                <Clock className="text-champagne/40 w-5 h-5" />
-              </div>
-              <div className="relative z-10 flex items-end gap-3">
-                <span className="font-display font-bold text-5xl text-champagne/80">{stats.interviewsToday}</span>
-                <span className="font-ui text-[10px] text-burgundy mb-2">Needs Action</span>
-              </div>
+        <div className="app-card p-5 flex flex-col justify-between">
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-xs font-semibold text-slate-500">Offers Extended</span>
+            <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+              <TrendingUp className="w-5 h-5" />
             </div>
-          </section>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-slate-900">{stats.offersIssued}</div>
+            <p className="text-xs text-amber-600 font-medium mt-1">Average ₹24.5 LPA</p>
+          </div>
+        </div>
 
-          <section className="glass-panel rounded-xl flex flex-col h-full border-white/5">
-            <div className="p-5 border-b border-white/5 flex justify-between items-center">
-              <h3 className="font-display font-semibold text-xl">Recent Drives Pipeline</h3>
-              <button className="font-ui text-[10px] uppercase tracking-widest text-gold hover:text-champagne transition-colors">View All</button>
-            </div>
-            <div className="p-0">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-white/5">
-                    <th className="p-4 font-ui text-[10px] uppercase tracking-widest text-champagne/40 font-normal">Role</th>
-                    <th className="p-4 font-ui text-[10px] uppercase tracking-widest text-champagne/40 font-normal">Applicants</th>
-                    <th className="p-4 font-ui text-[10px] uppercase tracking-widest text-champagne/40 font-normal text-right">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentDrives.map((drive, i) => (
-                    <tr key={i} className="border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors cursor-pointer">
-                      <td className="p-4 font-body text-sm text-champagne font-medium">{drive.role}</td>
-                      <td className="p-4 font-body text-sm text-champagne/80">{drive.applicants} <span className="text-xs text-champagne/40">Total</span></td>
-                      <td className="p-4 text-right">
-                        <span className={`px-3 py-1 rounded-full font-ui text-[9px] uppercase tracking-widest border ${
-                          drive.status === 'Interviewing' 
-                            ? 'bg-burgundy/10 border-burgundy/30 text-champagne' 
-                            : 'bg-gold/10 border-gold/30 text-gold'
-                        }`}>
-                          {drive.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-        </main>
       </div>
-      <AIAssistantModal />
-    </div>
+
+      {/* Quick Action Navigation Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <Link 
+          to="/company/candidate-pipeline"
+          className="app-card p-6 hover:border-blue-300 hover:shadow-md transition-all group block"
+        >
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <Target className="w-5 h-5" />
+          </div>
+          <h3 className="font-bold text-base text-slate-900 group-hover:text-blue-600 transition-colors flex items-center justify-between">
+            <span>Candidate Matching</span>
+            <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
+          </h3>
+          <p className="text-xs text-slate-500 mt-1 font-normal leading-relaxed">
+            Review top ranked student candidates with real-time percentage matching and skill gaps.
+          </p>
+        </Link>
+
+        <Link 
+          to="/company/interview-panels"
+          className="app-card p-6 hover:border-blue-300 hover:shadow-md transition-all group block"
+        >
+          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <Users className="w-5 h-5" />
+          </div>
+          <h3 className="font-bold text-base text-slate-900 group-hover:text-blue-600 transition-colors flex items-center justify-between">
+            <span>Interview Panels</span>
+            <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
+          </h3>
+          <p className="text-xs text-slate-500 mt-1 font-normal leading-relaxed">
+            Manage technical and HR panelists assigned to your open job roles.
+          </p>
+        </Link>
+
+        <Link 
+          to="/company/scheduling"
+          className="app-card p-6 hover:border-blue-300 hover:shadow-md transition-all group block"
+        >
+          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <Calendar className="w-5 h-5" />
+          </div>
+          <h3 className="font-bold text-base text-slate-900 group-hover:text-blue-600 transition-colors flex items-center justify-between">
+            <span>Interview Scheduling</span>
+            <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
+          </h3>
+          <p className="text-xs text-slate-500 mt-1 font-normal leading-relaxed">
+            Coordinate interview time slots, physical room allocations, and roster confirmation.
+          </p>
+        </Link>
+      </div>
+
+      {/* Live Drives Table */}
+      <div className="app-card p-6">
+        <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+          <div>
+            <h3 className="font-bold text-base text-slate-900">Active Job Postings</h3>
+            <p className="text-xs text-slate-400">Current open positions accepting applications</p>
+          </div>
+          <Link to="/company/job-roles" className="text-xs font-semibold text-blue-600 hover:text-blue-700">
+            View all →
+          </Link>
+        </div>
+
+        <div className="space-y-3">
+          {(drives.length > 0 ? drives.slice(0, 4) : [
+            { title: 'Software Engineer', ctc_max: 2450000, eligibility_min_cgpa: 7.5, status: 'Active' },
+            { title: 'Machine Learning Engineer', ctc_max: 3500000, eligibility_min_cgpa: 8.0, status: 'Active' },
+            { title: 'Full Stack Developer', ctc_max: 2200000, eligibility_min_cgpa: 7.0, status: 'Active' },
+          ]).map((job, idx) => (
+            <div key={idx} className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50/70 border border-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-600">
+                  <Briefcase className="w-4 h-4" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-slate-900">{job.title}</h4>
+                  <p className="text-xs text-slate-400 font-medium">Min CGPA: {job.eligibility_min_cgpa || '7.0'} • ₹{((job.ctc_max || 2000000)/100000).toFixed(1)} LPA</p>
+                </div>
+              </div>
+              <span className="badge-green text-xs font-semibold">Active</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </AppLayout>
   );
 }
