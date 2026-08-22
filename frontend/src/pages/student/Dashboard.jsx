@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Briefcase, Calendar, Target, Award, ArrowRight, 
-  CheckCircle2, Clock, Sparkles, AlertCircle, TrendingUp, Building2
+  CheckCircle2, Clock, Sparkles, AlertCircle, TrendingUp, Building2, DollarSign 
 } from 'lucide-react';
 import AppLayout from '../../components/AppLayout';
 import api from '../../api/client';
@@ -44,10 +44,10 @@ export default function StudentDashboard() {
     <AppLayout role="student">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+        <h1 className="text-3xl font-serif font-bold text-[#EFE5D2] tracking-tight">
           Welcome back, {user?.name?.split(' ')[0] || 'Student'} 👋
         </h1>
-        <p className="text-sm text-slate-500 mt-1 font-normal">
+        <p className="text-sm text-white/50 mt-1 font-normal">
           Track your campus placement opportunities, eligibility match scores, and scheduled interview rounds.
         </p>
       </div>
@@ -55,134 +55,123 @@ export default function StudentDashboard() {
       {/* Top 4 Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         
-        <div className="app-card p-5 flex flex-col justify-between">
-          <div className="flex items-start justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500">Readiness Score</span>
-            <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-              <Target className="w-5 h-5" />
+        <div className="bg-[#121417]/90 border border-white/10 p-5 rounded-2xl shadow-xl space-y-2">
+          <div className="flex justify-between items-start">
+            <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">Readiness Score</span>
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20">
+              <TrendingUp className="w-4 h-4" />
             </div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-slate-900">88%</div>
-            <p className="text-xs text-blue-600 font-medium mt-1">Top 5% in Batch</p>
-          </div>
+          <div className="text-3xl font-serif font-bold text-[#EFE5D2]">88%</div>
+          <p className="text-xs text-emerald-400 font-medium">Verified Profile Parity</p>
         </div>
 
-        <div className="app-card p-5 flex flex-col justify-between">
-          <div className="flex items-start justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500">Eligible Drives</span>
-            <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-              <Briefcase className="w-5 h-5" />
+        <div className="bg-[#121417]/90 border border-white/10 p-5 rounded-2xl shadow-xl space-y-2">
+          <div className="flex justify-between items-start">
+            <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">Eligible Drives</span>
+            <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center border border-blue-500/20">
+              <Briefcase className="w-4 h-4" />
             </div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-slate-900">{drives.length || 5}</div>
-            <p className="text-xs text-slate-400 font-medium mt-1">Open for applications</p>
-          </div>
+          <div className="text-3xl font-serif font-bold text-[#EFE5D2]">{drives.length || 5}</div>
+          <p className="text-xs text-white/40 font-medium">100% Academic Cutoff Met</p>
         </div>
 
-        <div className="app-card p-5 flex flex-col justify-between">
-          <div className="flex items-start justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500">Active Applications</span>
-            <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
-              <Clock className="w-5 h-5" />
+        <div className="bg-[#121417]/90 border border-white/10 p-5 rounded-2xl shadow-xl space-y-2">
+          <div className="flex justify-between items-start">
+            <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">Active Applications</span>
+            <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20">
+              <Target className="w-4 h-4" />
             </div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-slate-900">{applications.length || 1}</div>
-            <p className="text-xs text-purple-600 font-medium mt-1">1 Interview Scheduled</p>
-          </div>
+          <div className="text-3xl font-serif font-bold text-[#EFE5D2]">{applications.length || 1}</div>
+          <p className="text-xs text-amber-400 font-medium">In Pipeline Review</p>
         </div>
 
-        <div className="app-card p-5 flex flex-col justify-between">
-          <div className="flex items-start justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500">Verified Offers</span>
-            <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-              <Award className="w-5 h-5" />
+        <div className="bg-[#121417]/90 border border-white/10 p-5 rounded-2xl shadow-xl space-y-2">
+          <div className="flex justify-between items-start">
+            <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">Upcoming Slot</span>
+            <div className="w-8 h-8 rounded-lg bg-[#D4AF37]/10 text-[#D4AF37] flex items-center justify-center border border-[#D4AF37]/20">
+              <Calendar className="w-4 h-4" />
             </div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-slate-900">1</div>
-            <p className="text-xs text-amber-600 font-medium mt-1">₹24.5 LPA (Microsoft)</p>
-          </div>
+          <div className="text-2xl font-serif font-bold text-[#D4AF37]">Aug 24</div>
+          <p className="text-xs text-white/40 font-medium">10:00 AM • Room 302</p>
         </div>
 
       </div>
 
-      {/* 2 Column Layout: Eligible Drives & Interview Schedule */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Recommended Opportunities & Next Interview */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Left 8 Cols: Recommended Opportunities */}
-        <div className="lg:col-span-8 space-y-4">
+        {/* Recommended Jobs (Left 2 Cols) */}
+        <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="font-bold text-base text-slate-900">Recommended Opportunities</h2>
-            <Link to="/student/opportunities" className="text-xs font-semibold text-blue-600 hover:text-blue-700">
-              Browse all jobs →
+            <h3 className="font-serif font-bold text-lg text-[#EFE5D2]">Recommended Opportunities</h3>
+            <Link to="/student/opportunities" className="text-xs text-[#D4AF37] font-bold uppercase tracking-wider hover:underline flex items-center gap-1">
+              <span>View All</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           <div className="space-y-3">
-            {(drives.length > 0 ? drives.slice(0, 3) : [
-              { title: 'Software Engineer', company_name: 'Microsoft', ctc_max: 2450000, eligibility_min_cgpa: 7.5, required_skills: ['Python', 'System Design', 'SQL'] },
-              { title: 'Software Engineer (New Grad)', company_name: 'Google', ctc_max: 3800000, eligibility_min_cgpa: 8.0, required_skills: ['DSA', 'Algorithms', 'Go'] },
-              { title: 'Member of Technical Staff', company_name: 'Adobe', ctc_max: 2800000, eligibility_min_cgpa: 7.0, required_skills: ['React', 'JavaScript', 'REST'] },
-            ]).map((job, idx) => (
-              <div key={idx} className="app-card p-5 hover:border-slate-300 transition-all flex items-center justify-between gap-4">
+            {drives.slice(0, 3).map((d) => (
+              <div key={d.drive_id} className="bg-[#121417]/90 border border-white/10 p-5 rounded-2xl shadow-xl flex items-center justify-between gap-4 hover:border-white/20 transition-all">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2.5">
-                    <h3 className="font-bold text-base text-slate-900">{job.title}</h3>
-                    <span className="badge-green text-[11px] font-semibold py-0.5 px-2">
-                      <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                    <h4 className="font-bold text-[#EFE5D2] text-base">{d.title}</h4>
+                    <span className="bg-[#064E3B]/20 text-[#10B981] border border-[#10B981]/30 text-[10px] uppercase font-bold tracking-widest py-0.5 px-2 rounded-full">
                       Eligible
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500 font-medium">
-                    {job.company_name || 'Tech Partner'} • {formatCtc(job.ctc_max || job.ctc_min)} • Min CGPA: {job.eligibility_min_cgpa || '7.0'}
-                  </p>
+                  <div className="flex items-center gap-3 text-xs text-white/40 font-medium">
+                    <span className="text-[#D4AF37] font-bold">{formatCtc(d.ctc_max || d.ctc_min)}</span>
+                    <span>•</span>
+                    <span>{d.company_name || 'Microsoft'}</span>
+                  </div>
                 </div>
 
                 <Link 
-                  to="/student/opportunities"
-                  className="btn-blue text-xs py-2 px-4 shrink-0"
+                  to="/student/opportunities" 
+                  className="bg-gradient-to-r from-[#A81B2B] to-[#710912] hover:brightness-110 text-[#EFE5D2] font-semibold text-xs uppercase tracking-widest py-2 px-3.5 rounded-xl border-t border-white/20 shadow-md transition-all flex items-center gap-1.5 shrink-0"
                 >
                   <span>Apply Now</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Right 4 Cols: Upcoming Interview Slot */}
-        <div className="lg:col-span-4 space-y-4">
-          <h2 className="font-bold text-base text-slate-900">Upcoming Interview</h2>
-          
-          <div className="app-card p-5 border-blue-200 bg-blue-50/20 space-y-4">
+        {/* Confirmed Interview Card (Right 1 Col) */}
+        <div className="space-y-4">
+          <h3 className="font-serif font-bold text-lg text-[#EFE5D2]">Next Scheduled Round</h3>
+
+          <div className="bg-[#121417]/90 border border-white/10 p-6 rounded-2xl shadow-xl space-y-4">
             <div className="flex items-center justify-between">
-              <span className="badge-blue text-xs font-semibold">Technical Round 1</span>
-              <span className="text-[11px] text-slate-400 font-medium">Confirmed</span>
+              <span className="bg-[#064E3B]/20 text-[#10B981] border border-[#10B981]/30 text-[10px] uppercase font-bold tracking-widest py-0.5 px-2.5 rounded-full">
+                Slot Confirmed
+              </span>
+              <span className="text-xs text-[#D4AF37] font-bold">100% Match</span>
             </div>
 
             <div>
-              <h3 className="font-bold text-base text-slate-900">Microsoft SDE-1</h3>
-              <p className="text-xs text-slate-500 mt-0.5">Algorithms & System Architecture</p>
+              <h4 className="font-serif font-bold text-base text-[#EFE5D2]">Microsoft SDE-1</h4>
+              <p className="text-xs text-white/40 mt-0.5">Technical Round 1: Core DSA & System Design</p>
             </div>
 
-            <div className="space-y-2 text-xs text-slate-600 border-t border-blue-100 pt-3">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                <span className="font-medium">Aug 24, 2026 • 10:30 AM</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Building2 className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                <span className="font-medium">Academic Block B — Room 302</span>
-              </div>
+            <div className="p-3.5 rounded-xl bg-black/40 border border-white/5 space-y-1.5 text-xs text-white/60">
+              <p>📅 <strong className="text-[#EFE5D2]">Monday, Aug 24, 2026</strong></p>
+              <p>⏰ <strong className="text-[#EFE5D2]">10:00 AM - 10:45 AM</strong></p>
+              <p>📍 <strong className="text-[#D4AF37]">Academic Block B — Room 302</strong></p>
             </div>
 
             <Link 
-              to="/student/interview-center"
-              className="w-full btn-blue text-xs py-2 block text-center"
+              to="/student/applications" 
+              className="w-full bg-gradient-to-r from-[#A81B2B] to-[#710912] hover:brightness-110 text-[#EFE5D2] font-semibold text-xs uppercase tracking-widest py-2.5 rounded-xl border-t border-white/20 shadow-lg flex items-center justify-center gap-2"
             >
-              Open Interview Center
+              <span>View Interview Pass</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>

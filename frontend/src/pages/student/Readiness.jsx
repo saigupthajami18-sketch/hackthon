@@ -59,98 +59,90 @@ export default function AnalyticsInsights() {
   };
 
   return (
-    <AppLayout role={user?.role === 'student' ? 'student' : 'college'}>
+    <AppLayout role="student">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Analytics & Insights</h1>
-        <p className="text-sm text-slate-500 mt-1 font-normal">Skill-gap analysis and placement-readiness metrics</p>
+        <h1 className="text-3xl font-serif font-bold text-[#EFE5D2] tracking-tight">Analytics & Insights</h1>
+        <p className="text-sm text-white/50 mt-1 font-normal">
+          Key placement metrics and insights for your campus.
+        </p>
       </div>
 
-      {/* Top 4 Metrics Cards Grid */}
+      {/* Top 4 Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         
-        {/* Metric 1: Placement Rate */}
-        <div className="app-card p-5 relative overflow-hidden flex flex-col justify-between">
-          <div className="flex items-start justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500">Placement Rate</span>
-            <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-              <TrendingUp className="w-5 h-5" />
+        <div className="bg-[#121417]/90 border border-white/10 p-5 rounded-2xl shadow-xl space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">Placement Rate</span>
+            <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center border border-blue-500/20">
+              <TrendingUp className="w-4 h-4" />
             </div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-slate-900">{stats.placementRate}</div>
-            <p className="text-xs text-slate-400 font-medium mt-1">{stats.placedFraction}</p>
-          </div>
+          <div className="text-3xl font-serif font-bold text-[#EFE5D2]">{stats.placementRate}</div>
+          <p className="text-xs text-white/40 font-medium">{stats.placedFraction}</p>
         </div>
 
-        {/* Metric 2: Readiness Score */}
-        <div className="app-card p-5 relative overflow-hidden flex flex-col justify-between">
-          <div className="flex items-start justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500">Readiness Score</span>
-            <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-              <Target className="w-5 h-5" />
+        <div className="bg-[#121417]/90 border border-white/10 p-5 rounded-2xl shadow-xl space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">Readiness Score</span>
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20">
+              <Target className="w-4 h-4" />
             </div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-slate-900">{stats.readinessScore}</div>
-            <p className="text-xs text-slate-400 font-medium mt-1">{stats.readinessSubtitle}</p>
-          </div>
+          <div className="text-3xl font-serif font-bold text-[#10B981]">{stats.readinessScore}</div>
+          <p className="text-xs text-white/40 font-medium">{stats.readinessSubtitle}</p>
         </div>
 
-        {/* Metric 3: Avg CGPA */}
-        <div className="app-card p-5 relative overflow-hidden flex flex-col justify-between">
-          <div className="flex items-start justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500">Avg CGPA</span>
-            <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-              <GraduationCap className="w-5 h-5" />
+        <div className="bg-[#121417]/90 border border-white/10 p-5 rounded-2xl shadow-xl space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">Avg CGPA</span>
+            <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center border border-purple-500/20">
+              <GraduationCap className="w-4 h-4" />
             </div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-slate-900">{stats.avgCgpa}</div>
-            <p className="text-xs text-slate-400 font-medium mt-1">{stats.cgpaSubtitle}</p>
-          </div>
+          <div className="text-3xl font-serif font-bold text-[#D4AF37]">{stats.avgCgpa}</div>
+          <p className="text-xs text-white/40 font-medium">{stats.cgpaSubtitle}</p>
         </div>
 
-        {/* Metric 4: Active Recruiters */}
-        <div className="app-card p-5 relative overflow-hidden flex flex-col justify-between">
-          <div className="flex items-start justify-between mb-3">
-            <span className="text-xs font-semibold text-slate-500">Active Recruiters</span>
-            <div className="w-9 h-9 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center">
-              <Building2 className="w-5 h-5" />
+        <div className="bg-[#121417]/90 border border-white/10 p-5 rounded-2xl shadow-xl space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">Active Recruiters</span>
+            <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20">
+              <Building2 className="w-4 h-4" />
             </div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-slate-900">{stats.activeRecruiters}</div>
-            <p className="text-xs text-slate-400 font-medium mt-1">{stats.recruitersSubtitle}</p>
-          </div>
+          <div className="text-3xl font-serif font-bold text-[#EFE5D2]">{stats.activeRecruiters}</div>
+          <p className="text-xs text-white/40 font-medium">{stats.recruitersSubtitle}</p>
         </div>
 
       </div>
 
-      {/* 2 Bottom Detailed Sections */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* 2-Column Progress Grids */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
         {/* Left: Top Skills in Pool */}
-        <div className="app-card p-6">
-          <div className="flex items-center gap-2 mb-1">
-            <BarChart2 className="w-4 h-4 text-blue-600" />
-            <h3 className="font-bold text-base text-slate-900">Top Skills in Pool</h3>
+        <div className="bg-[#121417]/90 border border-white/10 p-6 rounded-2xl shadow-xl space-y-5">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <BarChart2 className="w-4 h-4 text-[#D4AF37]" />
+              <h3 className="font-serif font-bold text-base text-[#EFE5D2]">Top Skills in Pool</h3>
+            </div>
+            <p className="text-xs text-white/40 font-normal">Most common skills among candidates</p>
           </div>
-          <p className="text-xs text-slate-400 mb-6 font-normal">Most common skills across all students</p>
 
           <div className="space-y-4">
             {skillsPool.map((skill, idx) => {
               const widthPct = Math.round((skill.count / skill.max) * 100);
               return (
                 <div key={idx} className="flex items-center gap-4 text-xs font-medium">
-                  <span className="w-32 text-slate-700 truncate shrink-0">{skill.name}</span>
-                  <div className="flex-1 bg-slate-100 rounded-full h-4 overflow-hidden">
+                  <span className="w-32 text-white/70 truncate shrink-0">{skill.name}</span>
+                  <div className="flex-1 bg-black/40 rounded-full h-3 overflow-hidden border border-white/5">
                     <div 
-                      className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-500"
+                      className="h-full rounded-full bg-gradient-to-r from-[#A81B2B] to-[#D4AF37] transition-all duration-500"
                       style={{ width: `${widthPct}%` }}
                     />
                   </div>
-                  <span className="w-6 text-right font-bold text-slate-700 shrink-0">{skill.count}</span>
+                  <span className="w-6 text-right font-bold text-[#EFE5D2] shrink-0">{skill.count}</span>
                 </div>
               );
             })}
@@ -158,35 +150,35 @@ export default function AnalyticsInsights() {
         </div>
 
         {/* Right: Branch-wise Placement */}
-        <div className="app-card p-6 flex flex-col justify-between">
+        <div className="bg-[#121417]/90 border border-white/10 p-6 rounded-2xl shadow-xl space-y-5">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <Users className="w-4 h-4 text-emerald-600" />
-              <h3 className="font-bold text-base text-slate-900">Branch-wise Placement</h3>
+              <Users className="w-4 h-4 text-[#10B981]" />
+              <h3 className="font-serif font-bold text-base text-[#EFE5D2]">Branch-wise Placement</h3>
             </div>
-            <p className="text-xs text-slate-400 mb-6 font-normal">Placement status by branch</p>
+            <p className="text-xs text-white/40 font-normal">Placement status by branch</p>
+          </div>
 
-            <div className="space-y-5">
-              {branchPlacements.map((b, idx) => (
-                <div key={idx} className="p-3.5 rounded-xl border border-slate-100 bg-slate-50/50 space-y-2">
-                  <div className="flex items-center justify-between text-xs font-semibold">
-                    <span className="text-slate-900 text-sm">{b.branch}</span>
-                    <div className="flex items-center gap-3">
-                      <span className="text-slate-400 text-[11px] font-normal">CGPA {b.avgCgpa}</span>
-                      <span className="badge-green text-[11px] font-semibold py-0.5 px-2">
-                        {b.placed}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="w-full bg-slate-200/80 rounded-full h-2 overflow-hidden">
-                    <div 
-                      className="bg-emerald-500 h-full rounded-full transition-all duration-500"
-                      style={{ width: `${b.pct}%` }}
-                    />
+          <div className="space-y-4">
+            {branchPlacements.map((b, idx) => (
+              <div key={idx} className="p-3.5 rounded-xl border border-white/5 bg-black/40 space-y-2">
+                <div className="flex items-center justify-between text-xs font-semibold">
+                  <span className="text-[#EFE5D2] text-sm font-serif">{b.branch}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-white/40 text-[11px] font-normal">CGPA {b.avgCgpa}</span>
+                    <span className="bg-[#064E3B]/20 text-[#10B981] border border-[#10B981]/30 text-[10px] font-bold uppercase tracking-wider py-0.5 px-2 rounded">
+                      {b.placed}
+                    </span>
                   </div>
                 </div>
-              ))}
-            </div>
+                <div className="w-full bg-black/40 rounded-full h-2 overflow-hidden border border-white/5">
+                  <div 
+                    className="bg-[#10B981] h-full rounded-full transition-all duration-500"
+                    style={{ width: `${b.pct}%` }}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 

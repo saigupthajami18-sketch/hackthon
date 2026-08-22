@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Search, Briefcase, DollarSign, CheckCircle2, XCircle, 
-  ArrowRight, ShieldCheck, Check, Sparkles, Filter, ChevronRight, X
-} from 'lucide-react';
+import { Briefcase, Search, DollarSign, CheckCircle2, Clock, Plus, ArrowRight, Sparkles, Filter, Building2, Check } from 'lucide-react';
 import AppLayout from '../../components/AppLayout';
 import api from '../../api/client';
 import useAuthStore from '../../store/authStore';
 
-export default function BrowseJobs() {
+export default function Opportunities() {
   const { user } = useAuthStore();
   const [drives, setDrives] = useState([]);
+  const [appliedDriveIds, setAppliedDriveIds] = useState(new Set());
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [appliedDriveIds, setAppliedDriveIds] = useState(new Set());
   const [selectedDrive, setSelectedDrive] = useState(null);
   const [applying, setApplying] = useState(false);
 
   useEffect(() => {
-    fetchDrives();
+    fetchData();
   }, [user]);
 
-  const fetchDrives = async () => {
+  const fetchData = async () => {
     setLoading(true);
     try {
       const [drivesRes, appsRes] = await Promise.all([
@@ -69,68 +66,67 @@ export default function BrowseJobs() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Browse Opportunities</h1>
-          <p className="text-sm text-slate-500 mt-1 font-normal">
+          <h1 className="text-3xl font-serif font-bold text-[#EFE5D2] tracking-tight">Browse Opportunities</h1>
+          <p className="text-sm text-white/50 mt-1 font-normal">
             Discover verified campus placement drives tailored to your engineering branch and skills.
           </p>
         </div>
 
-        {/* Search Bar */}
+        {/* Search */}
         <div className="relative w-full sm:w-72">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-white/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input 
             type="text" 
-            placeholder="Search roles or companies..." 
+            placeholder="Search by job title or company..." 
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="app-input pl-10"
+            className="w-full bg-[#16191D] border border-white/10 rounded-xl py-2 pl-10 pr-4 text-xs text-[#EFE5D2] placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
           />
         </div>
       </div>
 
-      {/* Drives List */}
+      {/* Drives Grid */}
       {loading ? (
-        <div className="app-card p-16 text-center text-slate-400">
-          <p className="text-sm">Loading available opportunities...</p>
-        </div>
+        <div className="bg-[#121417]/90 border border-white/10 rounded-2xl p-16 text-center text-white/40">Loading opportunities...</div>
       ) : filteredDrives.length === 0 ? (
-        <div className="app-card p-16 text-center text-slate-400">
-          <p className="text-sm">No placement drives found matching your search.</p>
-        </div>
+        <div className="bg-[#121417]/90 border border-white/10 rounded-2xl p-16 text-center text-white/40">No opportunities match your search.</div>
       ) : (
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredDrives.map((drive) => {
-            const isApplied = appliedDriveIds.has(drive.drive_id);
+            const hasApplied = appliedDriveIds.has(drive.drive_id);
             return (
               <div 
                 key={drive.drive_id} 
-                className="app-card p-6 hover:border-slate-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-5"
+                className="bg-[#121417]/90 border border-white/10 p-6 rounded-2xl shadow-xl flex flex-col justify-between space-y-5 hover:border-white/20 transition-all"
               >
-                <div className="space-y-2">
-                  <div className="flex items-center gap-3">
-                    <h3 className="font-bold text-lg text-slate-900">{drive.title}</h3>
-                    <span className="badge-green text-xs font-semibold">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <div className="space-y-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="bg-[#064E3B]/20 text-[#10B981] border border-[#10B981]/30 text-[10px] uppercase font-bold tracking-widest py-0.5 px-2.5 rounded-full">
                       Eligible
                     </span>
+                    <span className="text-xs text-[#D4AF37] font-bold">100% Match</span>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-500">
-                    <span className="flex items-center gap-1 text-slate-800 font-bold">
-                      <DollarSign className="w-4 h-4 text-emerald-600" />
-                      {formatCtc(drive.ctc_max || drive.ctc_min)}
-                    </span>
-                    <span>•</span>
-                    <span>Cutoff CGPA: <strong className="text-slate-800">{drive.eligibility_min_cgpa || '7.0'}</strong></span>
-                    <span>•</span>
-                    <span>Branches: <strong className="text-slate-800">CSE / IT / ECE</strong></span>
+                  <div>
+                    <h3 className="font-serif font-bold text-lg text-[#EFE5D2] leading-tight">{drive.title}</h3>
+                    <p className="text-xs text-white/40 font-medium mt-0.5">{drive.company_name || 'Corporate Partner'}</p>
                   </div>
 
-                  {/* Skills */}
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/5 space-y-1.5 text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-white/40">CTC Package:</span>
+                      <strong className="text-[#D4AF37] font-bold">{formatCtc(drive.ctc_max || drive.ctc_min)}</strong>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-white/40">Cutoff:</span>
+                      <strong className="text-[#EFE5D2]">{drive.eligibility_min_cgpa || '7.5'} CGPA</strong>
+                    </div>
+                  </div>
+
                   {drive.required_skills && drive.required_skills.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 pt-2">
+                    <div className="flex flex-wrap gap-1.5 pt-1">
                       {drive.required_skills.map((s, idx) => (
-                        <span key={idx} className="bg-blue-50 text-blue-700 text-xs font-medium px-2.5 py-0.5 rounded-full border border-blue-100">
+                        <span key={idx} className="bg-white/5 text-white/80 text-[11px] font-medium px-2.5 py-0.5 rounded-md border border-white/10">
                           {s}
                         </span>
                       ))}
@@ -138,66 +134,26 @@ export default function BrowseJobs() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-3 shrink-0">
-                  {isApplied ? (
-                    <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center gap-1.5">
-                      <Check className="w-4 h-4" />
-                      Applied
-                    </span>
+                <div className="pt-2">
+                  {hasApplied ? (
+                    <div className="w-full py-2.5 rounded-xl bg-[#064E3B]/20 border border-[#10B981]/30 text-[#10B981] font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-1.5">
+                      <Check className="w-4 h-4 text-[#10B981]" />
+                      <span>Application Submitted</span>
+                    </div>
                   ) : (
                     <button 
-                      onClick={() => setSelectedDrive(drive)}
-                      className="btn-blue text-xs py-2.5 px-5"
+                      onClick={() => handleApply(drive)}
+                      disabled={applying}
+                      className="w-full bg-gradient-to-r from-[#A81B2B] to-[#710912] hover:brightness-110 text-[#EFE5D2] font-semibold text-xs uppercase tracking-widest py-2.5 rounded-xl border-t border-white/20 shadow-lg flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <span>Apply Now</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <Sparkles className="w-4 h-4" />
+                      <span>{applying ? 'Applying...' : 'Apply Now'}</span>
                     </button>
                   )}
                 </div>
               </div>
             );
           })}
-        </div>
-      )}
-
-      {/* Apply Confirmation Modal */}
-      {selectedDrive && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-              <h3 className="text-lg font-bold text-slate-900">Confirm Job Application</h3>
-              <button onClick={() => setSelectedDrive(null)} className="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="py-4 space-y-3 text-sm text-slate-600">
-              <p>You are about to submit your verified academic and coding profile to:</p>
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
-                <p className="font-bold text-slate-900 text-base">{selectedDrive.title}</p>
-                <p className="text-xs text-slate-500 font-medium">{formatCtc(selectedDrive.ctc_max || selectedDrive.ctc_min)} • Min CGPA: {selectedDrive.eligibility_min_cgpa || '7.0'}</p>
-              </div>
-              <p className="text-xs text-slate-400">
-                Your AI skill match score will be generated instantly and visible in your Applications tracker.
-              </p>
-            </div>
-
-            <div className="flex gap-3 pt-2">
-              <button 
-                onClick={() => setSelectedDrive(null)}
-                className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium text-sm transition-colors"
-              >
-                Cancel
-              </button>
-              <button 
-                onClick={() => handleApply(selectedDrive)}
-                disabled={applying}
-                className="flex-1 btn-blue"
-              >
-                {applying ? 'Submitting...' : 'Submit Application'}
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </AppLayout>

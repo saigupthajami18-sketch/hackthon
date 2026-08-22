@@ -44,66 +44,68 @@ export default function SkillGapAnalytics() {
     <AppLayout role="college">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Institutional Skill-Gap Analytics</h1>
-        <p className="text-sm text-slate-500 mt-1 font-normal">
+        <h1 className="text-3xl font-serif font-bold text-[#EFE5D2] tracking-tight">Institutional Skill-Gap Analytics</h1>
+        <p className="text-sm text-white/50 mt-1 font-normal">
           Compare recruiter skill demand vs student batch competencies and generate AI curriculum interventions.
         </p>
       </div>
 
       {/* Top 3 Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
-        <div className="app-card p-5">
-          <span className="text-xs text-slate-400 font-medium">Batch Readiness Index</span>
-          <div className="text-2xl font-bold text-slate-900 mt-1">88.4%</div>
-          <p className="text-[11px] text-emerald-600 font-medium mt-1">+4.2% from last cycle</p>
+        <div className="bg-[#121417]/90 border border-white/10 p-5 rounded-2xl shadow-xl">
+          <span className="text-xs text-white/40 font-semibold uppercase tracking-wider">Batch Readiness Index</span>
+          <div className="text-3xl font-serif font-bold text-[#EFE5D2] mt-1">88.4%</div>
+          <p className="text-[11px] text-emerald-400 font-medium mt-1">+4.2% from last cycle</p>
         </div>
-        <div className="app-card p-5">
-          <span className="text-xs text-slate-400 font-medium">Top Deficit Area</span>
-          <div className="text-2xl font-bold text-rose-600 mt-1">Cloud & DevOps</div>
-          <p className="text-[11px] text-slate-400 font-medium mt-1">44% supply shortfall</p>
+        <div className="bg-[#121417]/90 border border-white/10 p-5 rounded-2xl shadow-xl">
+          <span className="text-xs text-white/40 font-semibold uppercase tracking-wider">Top Deficit Area</span>
+          <div className="text-3xl font-serif font-bold text-rose-400 mt-1">Cloud & DevOps</div>
+          <p className="text-[11px] text-white/40 font-medium mt-1">44% supply shortfall</p>
         </div>
-        <div className="app-card p-5">
-          <span className="text-xs text-slate-400 font-medium">Strongest Competency</span>
-          <div className="text-2xl font-bold text-slate-900 mt-1">Python & DSA</div>
-          <p className="text-[11px] text-emerald-600 font-medium mt-1">94% market parity</p>
+        <div className="bg-[#121417]/90 border border-white/10 p-5 rounded-2xl shadow-xl">
+          <span className="text-xs text-white/40 font-semibold uppercase tracking-wider">Strongest Competency</span>
+          <div className="text-3xl font-serif font-bold text-[#D4AF37] mt-1">Python & DSA</div>
+          <p className="text-[11px] text-emerald-400 font-medium mt-1">94% market parity</p>
         </div>
       </div>
 
       {/* Skill Gap Comparison Table */}
-      <div className="app-card overflow-hidden border-slate-200 mb-8">
-        <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+      <div className="bg-[#121417]/90 border border-white/10 rounded-2xl shadow-xl overflow-hidden mb-8">
+        <div className="p-5 border-b border-white/5 flex items-center justify-between">
           <div>
-            <h3 className="font-bold text-base text-slate-900">Demand vs Supply Matrix</h3>
-            <p className="text-xs text-slate-400">Recruiter requirements compared against verified student skill profiles</p>
+            <h3 className="font-serif font-bold text-base text-[#EFE5D2]">Demand vs Supply Matrix</h3>
+            <p className="text-xs text-white/40">Recruiter requirements compared against verified student skill profiles</p>
           </div>
-          <span className="badge-blue text-xs font-semibold">Real-Time Aggregation</span>
+          <span className="bg-blue-950/40 text-blue-300 border border-blue-500/30 text-[10px] uppercase font-bold tracking-widest py-1 px-3 rounded-md">
+            Real-Time Aggregation
+          </span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-sm">
             <thead>
-              <tr className="bg-slate-50/80 border-b border-slate-100 text-slate-500 text-xs font-bold uppercase tracking-wider">
-                <th className="py-3.5 px-6">Skill Domain</th>
-                <th className="py-3.5 px-6">Market Demand</th>
-                <th className="py-3.5 px-6">Batch Supply</th>
-                <th className="py-3.5 px-6">Gap Delta</th>
-                <th className="py-3.5 px-6 text-right">Status</th>
+              <tr className="border-b border-white/5 text-white/30 text-[11px] font-bold uppercase tracking-widest bg-black/20">
+                <th className="py-4 px-6">Skill Domain</th>
+                <th className="py-4 px-6">Market Demand</th>
+                <th className="py-4 px-6">Batch Supply</th>
+                <th className="py-4 px-6">Gap Delta</th>
+                <th className="py-4 px-6 text-right">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-white/5">
               {skillsData.map((row, idx) => (
-                <tr key={idx} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="py-4 px-6 font-bold text-slate-900">{row.skill}</td>
-                  <td className="py-4 px-6 text-slate-600 font-semibold">{row.demand}%</td>
-                  <td className="py-4 px-6 text-slate-600 font-semibold">{row.supply}%</td>
-                  <td className="py-4 px-6 font-bold text-rose-600">{row.gap}%</td>
+                <tr key={idx} className="hover:bg-white/[0.02] transition-colors">
+                  <td className="py-4 px-6 font-bold text-[#EFE5D2]">{row.skill}</td>
+                  <td className="py-4 px-6 text-white/70 font-semibold">{row.demand}%</td>
+                  <td className="py-4 px-6 text-white/70 font-semibold">{row.supply}%</td>
+                  <td className="py-4 px-6 font-bold text-rose-400">{row.gap}%</td>
                   <td className="py-4 px-6 text-right">
-                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+                    <span className={`text-[10px] uppercase font-bold tracking-widest px-2.5 py-1 rounded-full ${
                       row.status === 'Balanced'
-                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                        ? 'bg-[#064E3B]/20 text-[#10B981] border border-[#10B981]/30'
                         : row.status === 'Critical Gap'
-                        ? 'bg-rose-50 text-rose-600 border border-rose-200'
-                        : 'bg-amber-50 text-amber-700 border border-amber-200'
+                        ? 'bg-rose-950/60 text-rose-400 border border-rose-500/30'
+                        : 'bg-amber-950/60 text-amber-300 border border-amber-500/30'
                     }`}>
                       {row.status}
                     </span>
@@ -116,21 +118,21 @@ export default function SkillGapAnalytics() {
       </div>
 
       {/* Recommended Interventions */}
-      <div className="app-card p-6 border-slate-200 space-y-4">
+      <div className="bg-[#121417]/90 border border-white/10 p-6 rounded-2xl shadow-xl space-y-4">
         <div className="flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-amber-500" />
-          <h3 className="font-bold text-base text-slate-900">AI Curriculum Recommendations</h3>
+          <Sparkles className="w-5 h-5 text-[#D4AF37]" />
+          <h3 className="font-serif font-bold text-base text-[#EFE5D2]">AI Curriculum Recommendations</h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
           {curriculumActions.map((act, idx) => (
-            <div key={idx} className="p-4 rounded-xl bg-slate-50 border border-slate-100 flex flex-col justify-between space-y-3">
+            <div key={idx} className="p-4 rounded-xl bg-black/40 border border-white/5 flex flex-col justify-between space-y-3">
               <div>
-                <span className="badge-blue text-[10px] font-semibold">{act.timeframe}</span>
-                <h4 className="font-bold text-sm text-slate-900 mt-2">{act.title}</h4>
-                <p className="text-xs text-slate-500 mt-1 font-medium">{act.targetAudience}</p>
+                <span className="bg-blue-950/40 text-blue-300 border border-blue-500/30 text-[10px] font-semibold py-0.5 px-2 rounded-full uppercase tracking-wider">{act.timeframe}</span>
+                <h4 className="font-bold text-sm text-[#EFE5D2] mt-2">{act.title}</h4>
+                <p className="text-xs text-white/40 mt-1 font-medium">{act.targetAudience}</p>
               </div>
-              <p className="text-xs text-emerald-700 font-bold border-t border-slate-200/60 pt-2">{act.projectedImpact}</p>
+              <p className="text-xs text-emerald-400 font-bold border-t border-white/5 pt-2">{act.projectedImpact}</p>
             </div>
           ))}
         </div>

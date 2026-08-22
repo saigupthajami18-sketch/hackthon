@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Plus, Calendar, Clock, MapPin, Users, Video, CheckCircle2, X } from 'lucide-react';
 import AppLayout from '../../components/AppLayout';
-import api from '../../api/client';
 import useAuthStore from '../../store/authStore';
 
 export default function InterviewScheduling() {
@@ -65,156 +64,134 @@ export default function InterviewScheduling() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Interview Scheduling</h1>
-          <p className="text-sm text-slate-500 mt-1 font-normal">Schedule and coordinate interviews with room and panel assignment</p>
+          <h1 className="text-3xl font-serif font-bold text-[#EFE5D2] tracking-tight">Interview Scheduling & Coordination</h1>
+          <p className="text-sm text-white/50 mt-1 font-normal">
+            Review automated slot allocations, physical interview rooms, and panel assignments.
+          </p>
         </div>
+
         <button 
           onClick={() => setShowModal(true)}
-          className="btn-blue shrink-0 shadow-xs"
+          className="bg-gradient-to-r from-[#A81B2B] to-[#710912] hover:brightness-110 text-[#EFE5D2] font-semibold text-xs uppercase tracking-widest py-2.5 px-5 rounded-xl border-t border-white/20 shadow-lg transition-all flex items-center gap-2 shrink-0 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Schedule Interview</span>
         </button>
       </div>
 
-      {/* Section Title */}
-      <div className="flex items-center gap-2 mb-4 text-xs font-bold uppercase tracking-wider text-slate-700">
-        <Calendar className="w-4 h-4 text-slate-500" />
-        <span>UPCOMING ({interviews.length})</span>
+      {/* Tabs */}
+      <div className="flex gap-2 border-b border-white/5 pb-4 mb-6">
+        <button className="bg-[#710912]/20 border border-[#A81B2B]/40 text-[#EFE5D2] px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+          <span>Upcoming</span>
+          <span className="bg-[#D4AF37] text-black font-extrabold text-[10px] px-1.5 py-0.2 rounded-full">
+            {interviews.length}
+          </span>
+        </button>
       </div>
 
-      {/* Interview Cards List */}
-      {interviews.length === 0 ? (
-        <div className="app-card p-16 text-center text-slate-400">
-          <p className="text-sm">No upcoming interviews. Click "Schedule Interview" to add one.</p>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {interviews.map((item) => (
-            <div key={item.id} className="app-card p-5 hover:border-slate-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2.5">
-                  <h3 className="font-bold text-base text-slate-900">{item.candidateName}</h3>
-                  <span className="badge-green text-xs font-semibold">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    {item.status}
-                  </span>
-                </div>
-                <p className="text-xs text-slate-500 font-medium">{item.role} • {item.company}</p>
-                
-                <div className="flex flex-wrap items-center gap-4 pt-2 text-xs text-slate-600">
-                  <span className="flex items-center gap-1.5 font-medium">
-                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                    {item.date}
-                  </span>
-                  <span className="flex items-center gap-1.5 font-medium">
-                    <Clock className="w-3.5 h-3.5 text-slate-400" />
-                    {item.time}
-                  </span>
-                  <span className="flex items-center gap-1.5 font-medium">
-                    <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                    {item.room}
-                  </span>
-                </div>
+      {/* Interviews Grid */}
+      <div className="space-y-4">
+        {interviews.map((slot) => (
+          <div 
+            key={slot.id} 
+            className="bg-[#121417]/90 border border-white/10 p-6 rounded-2xl shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-5 hover:border-white/20 transition-all"
+          >
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <h3 className="font-bold text-lg text-[#EFE5D2]">{slot.candidateName}</h3>
+                <span className="bg-[#064E3B]/20 text-[#10B981] border border-[#10B981]/30 text-[10px] uppercase font-bold tracking-widest py-0.5 px-2 rounded-full flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3" />
+                  {slot.status}
+                </span>
               </div>
+              <p className="text-xs text-white/50 font-medium">{slot.role}</p>
 
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="text-xs bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg font-medium">
-                  {item.panel}
+              <div className="flex flex-wrap items-center gap-4 text-xs text-white/40 pt-1 font-medium">
+                <span className="flex items-center gap-1 text-[#D4AF37]">
+                  <Calendar className="w-3.5 h-3.5" />
+                  {slot.date}
+                </span>
+                <span>•</span>
+                <span className="flex items-center gap-1 text-[#EFE5D2]">
+                  <Clock className="w-3.5 h-3.5" />
+                  {slot.time}
+                </span>
+                <span>•</span>
+                <span className="flex items-center gap-1 text-white/60">
+                  <MapPin className="w-3.5 h-3.5" />
+                  {slot.room}
                 </span>
               </div>
             </div>
-          ))}
-        </div>
-      )}
 
-      {/* Schedule Interview Modal */}
+            <div className="p-3.5 rounded-xl bg-black/40 border border-white/5 shrink-0 text-xs">
+              <span className="text-white/40 font-medium block">Assigned Evaluation Panel:</span>
+              <strong className="text-[#EFE5D2] font-semibold">{slot.panel}</strong>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Schedule Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-              <h3 className="text-lg font-bold text-slate-900">Schedule Interview Slot</h3>
-              <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-[#16191D] rounded-2xl p-6 max-w-md w-full shadow-2xl border border-white/10">
+            <div className="flex items-center justify-between pb-4 border-b border-white/5">
+              <h3 className="text-lg font-serif font-bold text-[#EFE5D2]">Schedule Interview Slot</h3>
+              <button onClick={() => setShowModal(false)} className="text-white/40 hover:text-white p-1 rounded-lg">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleSchedule} className="space-y-4 pt-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Candidate Name</label>
+                <label className="block text-xs font-semibold text-white/60 mb-1 uppercase tracking-wider">Candidate Name</label>
                 <input 
                   type="text" 
                   required
-                  placeholder="e.g. Ananya Reddy" 
+                  placeholder="e.g. Tanvi Mehta" 
                   value={candidateName}
                   onChange={e => setCandidateName(e.target.value)}
-                  className="app-input"
+                  className="w-full bg-[#1A1D20] border border-white/10 rounded-xl py-2.5 px-3.5 text-[#EFE5D2] text-sm focus:outline-none focus:border-[#D4AF37]/60"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Job Role</label>
+                <label className="block text-xs font-semibold text-white/60 mb-1 uppercase tracking-wider">Time Slot</label>
                 <input 
                   type="text" 
                   required
-                  value={role}
-                  onChange={e => setRole(e.target.value)}
-                  className="app-input"
+                  placeholder="e.g. 02:00 PM - 02:45 PM" 
+                  value={time}
+                  onChange={e => setTime(e.target.value)}
+                  className="w-full bg-[#1A1D20] border border-white/10 rounded-xl py-2.5 px-3.5 text-[#EFE5D2] text-sm focus:outline-none focus:border-[#D4AF37]/60"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Date</label>
-                  <input 
-                    type="date" 
-                    required
-                    value={date}
-                    onChange={e => setDate(e.target.value)}
-                    className="app-input"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Time Window</label>
-                  <input 
-                    type="text" 
-                    required
-                    value={time}
-                    onChange={e => setTime(e.target.value)}
-                    className="app-input"
-                  />
-                </div>
-              </div>
-
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Venue / Physical Room</label>
-                <select value={room} onChange={e => setRoom(e.target.value)} className="app-input">
-                  <option value="Academic Block B — Room 301">Academic Block B — Room 301</option>
-                  <option value="Academic Block B — Room 302">Academic Block B — Room 302</option>
-                  <option value="Academic Block B — Room 303">Academic Block B — Room 303</option>
-                  <option value="Academic Block B — Room 401">Academic Block B — Room 401</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Assigned Panel</label>
-                <select value={panel} onChange={e => setPanel(e.target.value)} className="app-input">
-                  <option value="Panel A — Core Backend & DSA">Panel A — Core Backend & DSA</option>
-                  <option value="Panel B — Systems & Concurrency">Panel B — Systems & Concurrency</option>
-                  <option value="Panel C — HR & Culture Fit">Panel C — HR & Culture Fit</option>
-                </select>
+                <label className="block text-xs font-semibold text-white/60 mb-1 uppercase tracking-wider">Interview Room</label>
+                <input 
+                  type="text" 
+                  required
+                  value={room}
+                  onChange={e => setRoom(e.target.value)}
+                  className="w-full bg-[#1A1D20] border border-white/10 rounded-xl py-2.5 px-3.5 text-[#EFE5D2] text-sm focus:outline-none focus:border-[#D4AF37]/60"
+                />
               </div>
 
               <div className="flex gap-3 pt-2">
                 <button 
                   type="button" 
                   onClick={() => setShowModal(false)}
-                  className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium text-sm transition-colors"
+                  className="flex-1 px-4 py-2.5 rounded-xl border border-white/10 text-white/60 hover:bg-white/5 font-medium text-xs uppercase tracking-wider transition-colors"
                 >
                   Cancel
                 </button>
-                <button type="submit" className="flex-1 btn-blue">
-                  Confirm Schedule
+                <button 
+                  type="submit" 
+                  className="flex-1 bg-gradient-to-r from-[#A81B2B] to-[#710912] hover:brightness-110 text-[#EFE5D2] font-semibold text-xs uppercase tracking-widest py-2.5 rounded-xl border-t border-white/20 shadow-lg"
+                >
+                  Confirm Slot
                 </button>
               </div>
             </form>

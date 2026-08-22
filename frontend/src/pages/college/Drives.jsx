@@ -55,60 +55,60 @@ export default function PlacementDrives() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Placement Drives</h1>
-          <p className="text-sm text-slate-500 mt-1 font-normal">
+          <h1 className="text-3xl font-serif font-bold text-[#EFE5D2] tracking-tight">Placement Drives</h1>
+          <p className="text-sm text-white/50 mt-1 font-normal">
             Active and upcoming corporate recruitment drives in NIT Engineering.
           </p>
         </div>
 
         {/* Search */}
         <div className="relative w-full sm:w-72">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-white/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input 
             type="text" 
             placeholder="Search drives or roles..." 
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="app-input pl-10"
+            className="w-full bg-[#16191D] border border-white/10 rounded-xl py-2 pl-10 pr-4 text-xs text-[#EFE5D2] placeholder-white/30 focus:outline-none focus:border-[#D4AF37]/50"
           />
         </div>
       </div>
 
       {/* Drives List */}
       {loading ? (
-        <div className="app-card p-16 text-center text-slate-400">Loading drives...</div>
+        <div className="bg-[#121417]/90 border border-white/10 rounded-2xl p-16 text-center text-white/40">Loading drives...</div>
       ) : filtered.length === 0 ? (
-        <div className="app-card p-16 text-center text-slate-400">No placement drives found.</div>
+        <div className="bg-[#121417]/90 border border-white/10 rounded-2xl p-16 text-center text-white/40">No placement drives found.</div>
       ) : (
         <div className="space-y-4">
           {filtered.map((drive) => (
             <div 
               key={drive.drive_id} 
-              className="app-card p-6 hover:border-slate-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-5"
+              className="bg-[#121417]/90 border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-xl"
             >
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
-                  <h3 className="font-bold text-lg text-slate-900">{drive.title}</h3>
-                  <span className="badge-green text-xs font-semibold uppercase">
+                  <h3 className="font-bold text-lg text-[#EFE5D2]">{drive.title}</h3>
+                  <span className="bg-[#064E3B]/20 text-[#10B981] border border-[#10B981]/30 text-[10px] uppercase font-bold tracking-widest py-0.5 px-2.5 rounded-full">
                     {drive.status || 'Active Drive'}
                   </span>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-500">
-                  <span className="flex items-center gap-1.5 text-slate-800 font-bold">
-                    <DollarSign className="w-4 h-4 text-emerald-600" />
+                <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-white/50">
+                  <span className="flex items-center gap-1.5 text-[#D4AF37] font-bold">
+                    <DollarSign className="w-4 h-4 text-[#D4AF37]" />
                     {formatCtc(drive.ctc_min, drive.ctc_max)}
                   </span>
                   <span>•</span>
-                  <span>Min Cutoff: <strong className="text-slate-800">{drive.eligibility_min_cgpa || '7.0'} CGPA</strong></span>
+                  <span>Min Cutoff: <strong className="text-[#EFE5D2]">{drive.eligibility_min_cgpa || '7.0'} CGPA</strong></span>
                   <span>•</span>
-                  <span>Target Batch: <strong className="text-slate-800">2027 Graduating</strong></span>
+                  <span>Target Batch: <strong className="text-[#EFE5D2]">2027 Graduating</strong></span>
                 </div>
 
                 {drive.required_skills && drive.required_skills.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 pt-2">
                     {drive.required_skills.map((s, idx) => (
-                      <span key={idx} className="bg-blue-50 text-blue-700 text-xs font-medium px-2.5 py-0.5 rounded-full border border-blue-100">
+                      <span key={idx} className="bg-white/5 text-white/70 text-xs font-medium px-2.5 py-0.5 rounded-full border border-white/10">
                         {s}
                       </span>
                     ))}
@@ -119,7 +119,7 @@ export default function PlacementDrives() {
               <div className="flex items-center gap-3 shrink-0">
                 <Link 
                   to={`/college/drives/${drive.drive_id}`}
-                  className="btn-blue text-xs py-2.5 px-4"
+                  className="bg-gradient-to-r from-[#A81B2B] to-[#710912] hover:brightness-110 text-[#EFE5D2] font-semibold text-xs uppercase tracking-widest py-2.5 px-4 rounded-xl border-t border-white/20 shadow-lg transition-all flex items-center gap-2"
                 >
                   <span>View Details</span>
                   <ArrowRight className="w-3.5 h-3.5" />

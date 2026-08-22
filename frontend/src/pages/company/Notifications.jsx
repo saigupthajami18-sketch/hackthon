@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, Send, CheckCircle2, AlertCircle, X, Clock, User } from 'lucide-react';
+import { Bell, Send, CheckCircle2, AlertCircle, X, Clock, User, Plus } from 'lucide-react';
 import AppLayout from '../../components/AppLayout';
 import api from '../../api/client';
 import useAuthStore from '../../store/authStore';
@@ -64,28 +64,17 @@ export default function Notifications() {
     }
   };
 
-  const handleSendNotification = async (e) => {
+  const handleSendNotification = (e) => {
     e.preventDefault();
     if (!messageText) return;
 
-    try {
-      await api.post('/notifications', {
-        user_id: user?.user_id,
-        type: category.toLowerCase(),
-        message: messageText,
-        channel: 'in_app'
-      });
-    } catch (e) {
-      console.log('Saved to local list');
-    }
-
     const newNotif = {
       id: `notif_${Date.now()}`,
-      recipient: recipient || 'Candidate',
-      category: category,
+      recipient,
+      category,
       message: messageText,
       timestamp: 'Just now',
-      unread: true
+      unread: false
     };
 
     setNotifications([newNotif, ...notifications]);
@@ -93,134 +82,134 @@ export default function Notifications() {
     setMessageText('');
   };
 
-  const filtered = activeFilter === 'unread' 
-    ? notifications.filter(n => n.unread) 
-    : notifications;
-
-  const unreadCount = notifications.filter(n => n.unread).length;
-
   return (
-    <AppLayout role={user?.role === 'student' ? 'student' : 'recruiter'}>
+    <AppLayout role="recruiter">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Notifications & Reminders</h1>
-          <p className="text-sm text-slate-500 mt-1 font-normal">
-            {unreadCount} unread of {notifications.length} total notifications
+          <h1 className="text-3xl font-serif font-bold text-[#EFE5D2] tracking-tight">Notification Center</h1>
+          <p className="text-sm text-white/50 mt-1 font-normal">
+            Review and dispatch automated SMS, Email, and Push alerts to candidates and panels.
           </p>
         </div>
+
         <button 
           onClick={() => setShowModal(true)}
-          className="btn-blue shrink-0 shadow-xs"
+          className="bg-gradient-to-r from-[#A81B2B] to-[#710912] hover:brightness-110 text-[#EFE5D2] font-semibold text-xs uppercase tracking-widest py-2.5 px-5 rounded-xl border-t border-white/20 shadow-lg transition-all flex items-center gap-2 shrink-0 cursor-pointer"
         >
-          <Send className="w-4 h-4" />
+          <Plus className="w-4 h-4" />
           <span>Send Notification</span>
         </button>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="flex items-center gap-2 mb-6">
-        <button
+      {/* Tabs */}
+      <div className="flex gap-2 border-b border-white/5 pb-4 mb-6">
+        <button 
           onClick={() => setActiveFilter('all')}
-          className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
+          className={`px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${
             activeFilter === 'all'
-              ? 'bg-slate-900 text-white shadow-xs'
-              : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+              ? 'bg-[#710912]/20 border border-[#A81B2B]/40 text-[#EFE5D2]'
+              : 'text-white/40 hover:text-white'
           }`}
         >
-          All ({notifications.length})
+          <span>All</span>
+          <span className="bg-[#D4AF37] text-black font-extrabold text-[10px] px-1.5 py-0.2 rounded-full">
+            {notifications.length}
+          </span>
         </button>
-        <button
+        <button 
           onClick={() => setActiveFilter('unread')}
-          className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
+          className={`px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${
             activeFilter === 'unread'
-              ? 'bg-slate-900 text-white shadow-xs'
-              : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+              ? 'bg-[#710912]/20 border border-[#A81B2B]/40 text-[#EFE5D2]'
+              : 'text-white/40 hover:text-white'
           }`}
         >
-          Unread ({unreadCount})
+          <span>Unread</span>
+          <span className="bg-white/10 text-white/60 font-semibold text-[10px] px-1.5 py-0.2 rounded-full">
+            0
+          </span>
         </button>
       </div>
 
-      {/* Notifications List */}
-      {filtered.length === 0 ? (
-        <div className="app-card p-16 text-center text-slate-400">
-          <p className="text-sm">No notifications found.</p>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {filtered.map((item) => (
-            <div 
-              key={item.id} 
-              className="app-card p-5 hover:border-slate-300 transition-all flex items-start gap-4"
-            >
-              <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shrink-0 mt-0.5">
-                <Bell className="w-5 h-5" />
-              </div>
+      {/* Notification Cards */}
+      <div className="space-y-4">
+        {notifications.map((notif) => (
+          <div 
+            key={notif.id} 
+            className="bg-[#121417]/90 border border-white/10 p-6 rounded-2xl shadow-xl flex items-start gap-4 hover:border-white/20 transition-all"
+          >
+            <div className="w-10 h-10 rounded-full bg-[#181A1E] text-[#D4AF37] font-bold text-xs flex items-center justify-center shrink-0 border border-white/10">
+              {notif.recipient.split(' ').map(n => n[0]).join('').slice(0, 2)}
+            </div>
 
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2.5 mb-1">
-                  <span className="font-bold text-sm text-slate-900">{item.recipient}</span>
-                  <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${
-                    item.category.toLowerCase() === 'alert'
-                      ? 'bg-rose-50 text-rose-600 border border-rose-200/60'
-                      : 'bg-emerald-50 text-emerald-700 border border-emerald-200/60'
+            <div className="flex-1 space-y-1.5">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2.5">
+                  <h4 className="font-bold text-sm text-[#EFE5D2]">{notif.recipient}</h4>
+                  <span className={`text-[10px] uppercase font-bold tracking-widest py-0.5 px-2.5 rounded-full ${
+                    notif.category === 'Alert'
+                      ? 'bg-amber-950/60 text-amber-300 border border-amber-500/30'
+                      : 'bg-blue-950/40 text-blue-300 border border-blue-500/30'
                   }`}>
-                    {item.category}
+                    {notif.category}
                   </span>
                 </div>
-
-                <p className="text-xs text-slate-600 font-normal leading-relaxed">{item.message}</p>
-                <p className="text-[11px] text-slate-400 font-medium mt-2">{item.timestamp}</p>
+                <span className="text-[11px] text-white/40 shrink-0 font-medium">{notif.timestamp}</span>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
 
-      {/* Send Notification Modal */}
+              <p className="text-xs text-white/70 leading-relaxed font-normal">{notif.message}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Dispatch Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-              <h3 className="text-lg font-bold text-slate-900">Send Notification</h3>
-              <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-[#16191D] rounded-2xl p-6 max-w-md w-full shadow-2xl border border-white/10">
+            <div className="flex items-center justify-between pb-4 border-b border-white/5">
+              <h3 className="text-lg font-serif font-bold text-[#EFE5D2]">Dispatch Notification</h3>
+              <button onClick={() => setShowModal(false)} className="text-white/40 hover:text-white p-1 rounded-lg">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleSendNotification} className="space-y-4 pt-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Recipient</label>
+                <label className="block text-xs font-semibold text-white/60 mb-1 uppercase tracking-wider">Recipient Candidate / Group</label>
                 <input 
                   type="text" 
                   required
-                  placeholder="e.g. Aarav Sharma or All Eligible Candidates" 
+                  placeholder="e.g. Karthik Iyer or All Shortlisted Candidates" 
                   value={recipient}
                   onChange={e => setRecipient(e.target.value)}
-                  className="app-input"
+                  className="w-full bg-[#1A1D20] border border-white/10 rounded-xl py-2.5 px-3.5 text-[#EFE5D2] text-sm focus:outline-none focus:border-[#D4AF37]/60"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Notification Category</label>
-                <select value={category} onChange={e => setCategory(e.target.value)} className="app-input">
-                  <option value="Eligibility">Eligibility</option>
-                  <option value="Alert">Alert</option>
-                  <option value="Shortlist">Shortlist</option>
-                  <option value="Interview">Interview</option>
+                <label className="block text-xs font-semibold text-white/60 mb-1 uppercase tracking-wider">Notification Type</label>
+                <select 
+                  value={category} 
+                  onChange={e => setCategory(e.target.value)}
+                  className="w-full bg-[#1A1D20] border border-white/10 rounded-xl py-2.5 px-3.5 text-[#EFE5D2] text-xs focus:outline-none focus:border-[#D4AF37]/60"
+                >
+                  <option value="Eligibility">Eligibility Update</option>
+                  <option value="Alert">Urgent Alert</option>
+                  <option value="Interview">Interview Coordination</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Message Content</label>
+                <label className="block text-xs font-semibold text-white/60 mb-1 uppercase tracking-wider">Message Content</label>
                 <textarea 
                   rows={4}
                   required
-                  placeholder="Type your notification or reminder message..."
+                  placeholder="Type message to broadcast..." 
                   value={messageText}
                   onChange={e => setMessageText(e.target.value)}
-                  className="app-input resize-none"
+                  className="w-full bg-[#1A1D20] border border-white/10 rounded-xl py-2.5 px-3.5 text-[#EFE5D2] text-xs focus:outline-none focus:border-[#D4AF37]/60 resize-none"
                 />
               </div>
 
@@ -228,12 +217,15 @@ export default function Notifications() {
                 <button 
                   type="button" 
                   onClick={() => setShowModal(false)}
-                  className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium text-sm transition-colors"
+                  className="flex-1 px-4 py-2.5 rounded-xl border border-white/10 text-white/60 hover:bg-white/5 font-medium text-xs uppercase tracking-wider transition-colors"
                 >
                   Cancel
                 </button>
-                <button type="submit" className="flex-1 btn-blue">
-                  Dispatch Notification
+                <button 
+                  type="submit" 
+                  className="flex-1 bg-gradient-to-r from-[#A81B2B] to-[#710912] hover:brightness-110 text-[#EFE5D2] font-semibold text-xs uppercase tracking-widest py-2.5 rounded-xl border-t border-white/20 shadow-lg"
+                >
+                  Send Alert
                 </button>
               </div>
             </form>

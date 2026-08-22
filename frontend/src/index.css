@@ -3,9 +3,17 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-burgundy: #710912;
+    --color-black: #0A0A0A;
+    --color-gold: #D4AF37;
+    --color-espresso: #16191D;
+    --color-champagne: #EFE5D2;
+  }
+
   body {
-    background-color: #F8FAFC;
-    color: #0F172A;
+    background-color: #0A0A0A;
+    color: #EFE5D2;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -14,39 +22,53 @@
 }
 
 @layer components {
-  /* Clean Card UI */
+  /* Dark Luxury Card */
   .app-card {
-    @apply bg-white border border-slate-200/80 rounded-2xl shadow-sm transition-all duration-200;
+    @apply bg-[#121417]/90 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl transition-all duration-200;
   }
 
   .app-card-hover {
-    @apply bg-white border border-slate-200/80 rounded-2xl shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200;
+    @apply bg-[#121417]/90 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl hover:border-white/20 hover:shadow-2xl transition-all duration-200;
   }
 
-  /* Primary Blue Button */
+  /* Primary Burgundy Button */
+  .btn-primary-burgundy {
+    @apply bg-gradient-to-r from-[#A81B2B] to-[#710912] hover:brightness-110 text-[#EFE5D2] font-semibold text-xs uppercase tracking-widest py-2.5 px-5 rounded-xl border-t border-white/20 shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer;
+  }
+
+  /* Primary Blue Button (if needed) */
   .btn-blue {
-    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-2.5 px-5 rounded-xl shadow-sm hover:shadow transition-all duration-200 flex items-center justify-center gap-2;
+    @apply bg-gradient-to-r from-[#A81B2B] to-[#710912] hover:brightness-110 text-[#EFE5D2] font-semibold text-xs uppercase tracking-widest py-2.5 px-5 rounded-xl border-t border-white/20 shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer;
   }
 
-  /* Pills & Badges */
+  /* Gold Outline Button */
+  .btn-gold-outline {
+    @apply bg-white/5 hover:bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/30 hover:border-[#D4AF37]/60 font-semibold text-xs uppercase tracking-widest py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer;
+  }
+
+  /* Badges */
   .badge-green {
-    @apply bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-medium text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5;
+    @apply bg-emerald-950/60 text-emerald-400 border border-emerald-500/30 font-semibold text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5;
   }
 
   .badge-blue {
-    @apply bg-blue-50 text-blue-700 border border-blue-200/60 font-medium text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5;
+    @apply bg-blue-950/60 text-blue-300 border border-blue-500/30 font-semibold text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5;
   }
 
   .badge-red {
-    @apply bg-rose-50 text-rose-700 border border-rose-200/60 font-medium text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5;
+    @apply bg-rose-950/60 text-rose-400 border border-rose-500/30 font-semibold text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5;
   }
 
   .badge-amber {
-    @apply bg-amber-50 text-amber-700 border border-amber-200/60 font-medium text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5;
+    @apply bg-amber-950/60 text-amber-300 border border-amber-500/30 font-semibold text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5;
+  }
+
+  .badge-gold {
+    @apply bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/30 font-semibold text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5;
   }
 
   /* Form Inputs */
   .app-input {
-    @apply w-full bg-white border border-slate-200 rounded-xl py-2.5 px-3.5 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all;
+    @apply w-full bg-[#16191D] border border-white/10 rounded-xl py-2.5 px-3.5 text-[#EFE5D2] text-sm focus:outline-none focus:border-[#D4AF37]/60 transition-all placeholder-white/30;
   }
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Building2, Search, CheckCircle2, Clock, Plus, ExternalLink, Check, Briefcase } from 'lucide-react';
+import { Building2, Search, CheckCircle2, Clock, Plus, ExternalLink, Check } from 'lucide-react';
 import AppLayout from '../../components/AppLayout';
 import useAuthStore from '../../store/authStore';
 
@@ -7,11 +7,11 @@ export default function Companies() {
   const { user } = useAuthStore();
   const [search, setSearch] = useState('');
   const [companies, setCompanies] = useState([
-    { id: 1, name: 'Microsoft Corporation', industry: 'Cloud & Operating Systems', drives: 2, status: 'Approved' },
-    { id: 2, name: 'Google LLC', industry: 'Search, AI & Distributed Systems', drives: 1, status: 'Approved' },
-    { id: 3, name: 'Adobe Inc', industry: 'Digital Media & Creative Cloud', drives: 1, status: 'Approved' },
-    { id: 4, name: 'Amazon Web Services', industry: 'Cloud Computing & E-Commerce', drives: 1, status: 'Approved' },
-    { id: 5, name: 'NextGen AI Solutions', industry: 'Artificial Intelligence & LLMs', drives: 0, status: 'Pending' },
+    { id: 1, name: 'Tech Solutions Inc', industry: 'Software', status: 'Pending' },
+    { id: 2, name: 'Global Finance Corp', industry: 'Fintech', status: 'Approved' },
+    { id: 3, name: 'NextGen AI', industry: 'Artificial Intelligence', status: 'Approved' },
+    { id: 4, name: 'Microsoft Corporation', industry: 'Cloud & OS Platforms', status: 'Approved' },
+    { id: 5, name: 'Amazon Web Services', industry: 'Cloud & Infrastructure', status: 'Approved' },
   ]);
 
   const approveCompany = (id) => {
@@ -26,66 +26,51 @@ export default function Companies() {
   return (
     <AppLayout role="college">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Partner Companies</h1>
-          <p className="text-sm text-slate-500 mt-1 font-normal">
-            Manage corporate recruiting partners, MOU verification, and active job drives.
-          </p>
-        </div>
-
-        {/* Search */}
-        <div className="relative w-full sm:w-72">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input 
-            type="text" 
-            placeholder="Search company or sector..." 
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            className="app-input pl-10"
-          />
-        </div>
+      <div className="mb-8">
+        <h1 className="text-3xl font-serif font-bold text-[#EFE5D2] tracking-tight">Partner Companies</h1>
+        <p className="text-sm text-white/50 mt-1 font-normal">
+          Manage recruiting partners and approve new access requests.
+        </p>
       </div>
 
-      {/* Companies Table Card */}
-      <div className="app-card overflow-hidden border-slate-200">
+      {/* Companies List Container */}
+      <div className="bg-[#121417]/90 border border-white/10 rounded-2xl shadow-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-sm">
             <thead>
-              <tr className="bg-slate-50/80 border-b border-slate-100 text-slate-500 text-xs font-bold uppercase tracking-wider">
-                <th className="py-3.5 px-6">Company</th>
-                <th className="py-3.5 px-6">Industry Domain</th>
-                <th className="py-3.5 px-6">Active Drives</th>
-                <th className="py-3.5 px-6">Status</th>
-                <th className="py-3.5 px-6 text-right">Action</th>
+              <tr className="border-b border-white/5 text-white/30 text-[11px] font-bold uppercase tracking-widest bg-black/20">
+                <th className="py-4 px-6">Company Name</th>
+                <th className="py-4 px-6">Industry</th>
+                <th className="py-4 px-6 text-center">Status</th>
+                <th className="py-4 px-6 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-white/5">
               {filtered.map((comp) => (
-                <tr key={comp.id} className="hover:bg-slate-50/50 transition-colors">
+                <tr key={comp.id} className="hover:bg-white/[0.02] transition-colors">
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm shrink-0 border border-blue-100">
-                        <Building2 className="w-5 h-5" />
+                      <div className="w-9 h-9 rounded-lg bg-[#181A1E] text-white/80 font-bold text-sm flex items-center justify-center shrink-0 border border-white/10">
+                        {comp.name[0]}
                       </div>
                       <div>
-                        <div className="font-bold text-slate-900">{comp.name}</div>
-                        <div className="text-xs text-slate-400 font-medium">Verified Partner</div>
+                        <div className="font-bold text-[#EFE5D2]">{comp.name}</div>
+                        <a href="#view" className="text-xs text-blue-400 hover:underline flex items-center gap-1 font-normal mt-0.5">
+                          <span>View Profile</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
                       </div>
                     </div>
                   </td>
-                  <td className="py-4 px-6 text-slate-600 font-medium">{comp.industry}</td>
-                  <td className="py-4 px-6 font-bold text-slate-800">{comp.drives} live drives</td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-6 text-white/60 font-medium">{comp.industry}</td>
+                  <td className="py-4 px-6 text-center">
                     {comp.status === 'Approved' ? (
-                      <span className="badge-green text-xs font-semibold">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                      <span className="bg-[#064E3B]/20 text-[#10B981] border border-[#10B981]/30 text-[10px] uppercase font-bold tracking-widest py-1 px-3 rounded-md">
                         Approved
                       </span>
                     ) : (
-                      <span className="badge-amber text-xs font-semibold">
-                        <Clock className="w-3.5 h-3.5 text-amber-600" />
-                        Pending Review
+                      <span className="bg-[#78350F]/20 text-[#F59E0B] border border-[#F59E0B]/30 text-[10px] uppercase font-bold tracking-widest py-1 px-3 rounded-md">
+                        Pending
                       </span>
                     )}
                   </td>
@@ -93,13 +78,13 @@ export default function Companies() {
                     {comp.status === 'Pending' ? (
                       <button 
                         onClick={() => approveCompany(comp.id)}
-                        className="btn-blue text-xs py-1.5 px-3.5 inline-flex"
+                        className="bg-transparent hover:bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/50 font-bold text-xs uppercase tracking-wider py-1.5 px-3.5 rounded-lg transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-sm"
                       >
-                        <Check className="w-3.5 h-3.5" />
-                        <span>Approve MOU</span>
+                        <Check className="w-3.5 h-3.5 text-[#D4AF37]" />
+                        <span>Approve</span>
                       </button>
                     ) : (
-                      <span className="text-xs text-slate-400 font-medium">Active Partner</span>
+                      <span className="text-xs text-white/30 font-medium uppercase tracking-wider">Active</span>
                     )}
                   </td>
                 </tr>

@@ -37,15 +37,15 @@ export default function Venues() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Venues & Physical Rooms</h1>
-          <p className="text-sm text-slate-500 mt-1 font-normal">
+          <h1 className="text-3xl font-serif font-bold text-[#EFE5D2] tracking-tight">Venues & Physical Rooms</h1>
+          <p className="text-sm text-white/50 mt-1 font-normal">
             Physical room allocation, capacity tracking, and zero-conflict interview coordination.
           </p>
         </div>
 
         <button 
           onClick={() => setShowModal(true)}
-          className="btn-blue shrink-0 shadow-xs"
+          className="bg-gradient-to-r from-[#A81B2B] to-[#710912] hover:brightness-110 text-[#EFE5D2] font-semibold text-xs uppercase tracking-widest py-2.5 px-4 rounded-xl border-t border-white/20 shadow-lg transition-all flex items-center gap-2"
         >
           <Plus className="w-4 h-4" />
           <span>Add Room / Venue</span>
@@ -55,32 +55,32 @@ export default function Venues() {
       {/* Venues Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filtered.map((venue) => (
-          <div key={venue.id} className="app-card p-6 flex flex-col justify-between space-y-4">
+          <div key={venue.id} className="bg-[#121417]/90 border border-white/10 p-6 rounded-2xl shadow-xl flex flex-col justify-between space-y-4">
             <div className="space-y-2">
               <div className="flex items-start justify-between gap-2">
-                <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-xl bg-white/5 text-[#D4AF37] flex items-center justify-center shrink-0 border border-white/10">
                   <MapPin className="w-5 h-5" />
                 </div>
-                <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${
+                <span className={`text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full ${
                   venue.status === 'Available'
-                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                    : 'bg-blue-50 text-blue-700 border border-blue-200'
+                    ? 'bg-[#064E3B]/20 text-[#10B981] border border-[#10B981]/30'
+                    : 'bg-blue-950/40 text-blue-300 border border-blue-500/30'
                 }`}>
                   {venue.status}
                 </span>
               </div>
 
               <div>
-                <h3 className="font-bold text-base text-slate-900 leading-snug">{venue.name}</h3>
-                <p className="text-xs text-slate-500 font-medium mt-1">
-                  Capacity: <strong className="text-slate-700">{venue.capacity} persons</strong>
+                <h3 className="font-serif font-bold text-base text-[#EFE5D2] leading-snug">{venue.name}</h3>
+                <p className="text-xs text-white/40 font-medium mt-1">
+                  Capacity: <strong className="text-white/80">{venue.capacity} persons</strong>
                 </p>
               </div>
             </div>
 
-            <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs">
-              <span className="text-slate-400 font-medium block">Current Activity:</span>
-              <span className="font-bold text-slate-800">{venue.currentDrive}</span>
+            <div className="p-3 rounded-xl bg-black/40 border border-white/5 text-xs">
+              <span className="text-white/40 font-medium block">Current Activity:</span>
+              <span className="font-bold text-[#D4AF37]">{venue.currentDrive}</span>
             </div>
           </div>
         ))}
@@ -88,36 +88,36 @@ export default function Venues() {
 
       {/* Add Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-              <h3 className="text-lg font-bold text-slate-900">Add New Venue / Room</h3>
-              <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-[#16191D] rounded-2xl p-6 max-w-md w-full shadow-2xl border border-white/10">
+            <div className="flex items-center justify-between pb-4 border-b border-white/5">
+              <h3 className="text-lg font-serif font-bold text-[#EFE5D2]">Add New Venue / Room</h3>
+              <button onClick={() => setShowModal(false)} className="text-white/40 hover:text-white p-1 rounded-lg">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleAddVenue} className="space-y-4 pt-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Room Name & Block</label>
+                <label className="block text-xs font-semibold text-white/60 mb-1 uppercase tracking-wider">Room Name & Block</label>
                 <input 
                   type="text" 
                   required
                   placeholder="e.g. Academic Block C — Room 405" 
                   value={newName}
                   onChange={e => setNewName(e.target.value)}
-                  className="app-input"
+                  className="w-full bg-[#1A1D20] border border-white/10 rounded-xl py-2.5 px-3.5 text-[#EFE5D2] text-sm focus:outline-none focus:border-[#D4AF37]/60"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Seating Capacity</label>
+                <label className="block text-xs font-semibold text-white/60 mb-1 uppercase tracking-wider">Seating Capacity</label>
                 <input 
                   type="number" 
                   required
                   value={newCap}
                   onChange={e => setNewCap(e.target.value)}
-                  className="app-input"
+                  className="w-full bg-[#1A1D20] border border-white/10 rounded-xl py-2.5 px-3.5 text-[#EFE5D2] text-sm focus:outline-none focus:border-[#D4AF37]/60"
                 />
               </div>
 
@@ -125,11 +125,11 @@ export default function Venues() {
                 <button 
                   type="button" 
                   onClick={() => setShowModal(false)}
-                  className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium text-sm transition-colors"
+                  className="flex-1 px-4 py-2.5 rounded-xl border border-white/10 text-white/60 hover:bg-white/5 font-medium text-xs uppercase tracking-wider transition-colors"
                 >
                   Cancel
                 </button>
-                <button type="submit" className="flex-1 btn-blue">
+                <button type="submit" className="flex-1 bg-gradient-to-r from-[#A81B2B] to-[#710912] hover:brightness-110 text-[#EFE5D2] font-semibold text-xs uppercase tracking-widest py-2.5 rounded-xl border-t border-white/20 shadow-lg">
                   Add Room
                 </button>
               </div>
