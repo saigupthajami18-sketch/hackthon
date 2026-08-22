@@ -30,6 +30,7 @@ class EvidenceSource(str, enum.Enum):
     PROJECT_LINKED = "project_linked"
     CERTIFICATION_LINKED = "certification_linked"
     CODING_PROFILE_VERIFIED = "coding_profile_verified"
+    RESUME_NLP = "resume_nlp"
 
 
 class CodingPlatform(str, enum.Enum):

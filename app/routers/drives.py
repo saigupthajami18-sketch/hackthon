@@ -14,7 +14,7 @@ from app.database import get_db
 from app.models.job_drive import JobDrive
 from app.models.application import Application
 from app.models.student import Student
-from app.models import UserRole, ExtractionStatus, DriveStatus, EligibilityStatus, ShortlistStatus
+from app.models import UserRole, ExtractionStatus, DriveStatus, EligibilityStatus, ShortlistStatus, ApplicationStatus
 from app.schemas.auth import TokenData
 from app.middleware.rbac import require_roles
 from app.middleware.org_scope import verify_org_access
