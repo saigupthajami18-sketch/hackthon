@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TrendingUp, Target, GraduationCap, Building2, BarChart2, CheckCircle2, Award } from 'lucide-react';
+import { TrendingUp, Target, GraduationCap, Building2, BarChart2, CheckCircle2, Award, Users } from 'lucide-react';
 import AppLayout from '../../components/AppLayout';
 import api from '../../api/client';
 import useAuthStore from '../../store/authStore';
