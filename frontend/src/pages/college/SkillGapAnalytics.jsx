@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  ArrowLeft, BarChart3, TrendingUp, Sparkles, BookOpen, Layers, 
-  ArrowRight, ShieldCheck, CheckCircle2, AlertTriangle, Users
+  BarChart3, TrendingUp, Sparkles, BookOpen, Layers, 
+  ArrowRight, ShieldCheck, CheckCircle2, AlertTriangle, Users 
 } from 'lucide-react';
+import AppLayout from '../../components/AppLayout';
 import useAuthStore from '../../store/authStore';
-import AIAssistantModal from '../../components/AIAssistantModal';
 
 export default function SkillGapAnalytics() {
   const { user } = useAuthStore();
 
-  const [skillsData, setSkillsData] = useState([
+  const [skillsData] = useState([
     { skill: 'Python / Backend APIs', demand: 94, supply: 88, gap: -6, status: 'Balanced' },
     { skill: 'React / Next.js Frontend', demand: 86, supply: 82, gap: -4, status: 'Balanced' },
     { skill: 'Docker / Kubernetes (DevOps)', demand: 82, supply: 38, gap: -44, status: 'Critical Gap' },
@@ -19,9 +19,9 @@ export default function SkillGapAnalytics() {
     { skill: 'PostgreSQL / Distributed DBs', demand: 70, supply: 65, gap: -5, status: 'Balanced' }
   ]);
 
-  const [curriculumActions, setCurriculumActions] = useState([
+  const [curriculumActions] = useState([
     {
-      title: 'Host Hands-on Docker & Kubernetes Workshop',
+      title: 'Host Hands-on Docker & Kubernetes Bootcamps',
       targetAudience: 'Pre-final Year (2027 Batch - CSE/IT)',
       projectedImpact: '+32% increase in Tier-1 Cloud & SDE Job Match eligibility',
       timeframe: '2 Weeks'
@@ -35,145 +35,106 @@ export default function SkillGapAnalytics() {
     {
       title: 'Mandatory System Design Mock Interview Series',
       targetAudience: 'Top 20% Shortlist Candidates',
-      projectedImpact: 'Elevates Technical Round 2 clearance rate by an estimated 24%',
+      projectedImpact: 'Elevates Technical Round 2 clearance rate by 24%',
       timeframe: 'Ongoing'
     }
   ]);
 
   return (
-    <div className="min-h-screen bg-black font-body text-champagne">
-      {/* Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-950/20 via-black to-black"></div>
+    <AppLayout role="college">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Institutional Skill-Gap Analytics</h1>
+        <p className="text-sm text-slate-500 mt-1 font-normal">
+          Compare recruiter skill demand vs student batch competencies and generate AI curriculum interventions.
+        </p>
       </div>
 
-      {/* Navbar */}
-      <nav className="sticky top-0 z-40 bg-neutral-950/80 backdrop-blur-md border-b border-white/10 h-16">
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center h-full">
-          <div className="flex items-center gap-4">
-            <Link to="/college/dashboard" className="text-neutral-400 hover:text-white transition-colors flex items-center gap-1.5 text-xs uppercase tracking-wider font-ui">
-              <ArrowLeft className="w-4 h-4" /> Dashboard
-            </Link>
-            <span className="text-neutral-600">/</span>
-            <span className="text-white font-medium text-sm">Institutional Skill-Gap Analytics</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link to="/college/drives" className="px-3.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-neutral-300 transition-colors border border-white/10">
-              Drives Roster
-            </Link>
-          </div>
+      {/* Top 3 Summary Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+        <div className="app-card p-5">
+          <span className="text-xs text-slate-400 font-medium">Batch Readiness Index</span>
+          <div className="text-2xl font-bold text-slate-900 mt-1">88.4%</div>
+          <p className="text-[11px] text-emerald-600 font-medium mt-1">+4.2% from last cycle</p>
         </div>
-      </nav>
+        <div className="app-card p-5">
+          <span className="text-xs text-slate-400 font-medium">Top Deficit Area</span>
+          <div className="text-2xl font-bold text-rose-600 mt-1">Cloud & DevOps</div>
+          <p className="text-[11px] text-slate-400 font-medium mt-1">44% supply shortfall</p>
+        </div>
+        <div className="app-card p-5">
+          <span className="text-xs text-slate-400 font-medium">Strongest Competency</span>
+          <div className="text-2xl font-bold text-slate-900 mt-1">Python & DSA</div>
+          <p className="text-[11px] text-emerald-600 font-medium mt-1">94% market parity</p>
+        </div>
+      </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-8">
-        
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-mono mb-3">
-            <BarChart3 className="w-3.5 h-3.5" /> CORPORATE DEMAND VS STUDENT SUPPLY
+      {/* Skill Gap Comparison Table */}
+      <div className="app-card overflow-hidden border-slate-200 mb-8">
+        <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+          <div>
+            <h3 className="font-bold text-base text-slate-900">Demand vs Supply Matrix</h3>
+            <p className="text-xs text-slate-400">Recruiter requirements compared against verified student skill profiles</p>
           </div>
-          <h1 className="display-title text-3xl md:text-4xl text-white font-bold tracking-tight">
-            Institutional Skill-Gap & Curriculum Intelligence
-          </h1>
-          <p className="text-neutral-400 text-sm mt-1">
-            Real-time heatmaps analyzing corporate Job Description requirements against verified student cohort competencies.
-          </p>
+          <span className="badge-blue text-xs font-semibold">Real-Time Aggregation</span>
         </div>
 
-        {/* Skill Gap Comparison Heatmap */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-          
-          <div className="lg:col-span-2 p-6 rounded-2xl bg-neutral-950/80 border border-white/10 shadow-xl">
-            <h3 className="text-sm font-bold text-white uppercase font-ui tracking-wider mb-6 flex items-center gap-2">
-              <Layers className="w-4 h-4 text-amber-400" /> Market Demand vs Batch Competency Index
-            </h3>
-
-            <div className="space-y-6">
-              {skillsData.map((item, idx) => (
-                <div key={idx} className="space-y-2">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-white">{item.skill}</span>
-                    <span className={`font-mono font-bold ${
-                      item.status === 'Critical Gap' ? 'text-rose-400' :
-                      item.status === 'Moderate Gap' ? 'text-amber-400' : 'text-emerald-400'
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr className="bg-slate-50/80 border-b border-slate-100 text-slate-500 text-xs font-bold uppercase tracking-wider">
+                <th className="py-3.5 px-6">Skill Domain</th>
+                <th className="py-3.5 px-6">Market Demand</th>
+                <th className="py-3.5 px-6">Batch Supply</th>
+                <th className="py-3.5 px-6">Gap Delta</th>
+                <th className="py-3.5 px-6 text-right">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {skillsData.map((row, idx) => (
+                <tr key={idx} className="hover:bg-slate-50/50 transition-colors">
+                  <td className="py-4 px-6 font-bold text-slate-900">{row.skill}</td>
+                  <td className="py-4 px-6 text-slate-600 font-semibold">{row.demand}%</td>
+                  <td className="py-4 px-6 text-slate-600 font-semibold">{row.supply}%</td>
+                  <td className="py-4 px-6 font-bold text-rose-600">{row.gap}%</td>
+                  <td className="py-4 px-6 text-right">
+                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+                      row.status === 'Balanced'
+                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                        : row.status === 'Critical Gap'
+                        ? 'bg-rose-50 text-rose-600 border border-rose-200'
+                        : 'bg-amber-50 text-amber-700 border border-amber-200'
                     }`}>
-                      {item.gap}% Gap ({item.status})
+                      {row.status}
                     </span>
-                  </div>
-
-                  {/* Dual Bar (Demand vs Supply) */}
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-3 text-[10px] text-neutral-400 font-mono">
-                      <span className="w-20">Market Demand:</span>
-                      <div className="flex-1 h-2 rounded-full bg-neutral-900 overflow-hidden">
-                        <div className="h-full bg-amber-400 rounded-full" style={{ width: `${item.demand}%` }}></div>
-                      </div>
-                      <span className="w-8 text-right text-white font-bold">{item.demand}%</span>
-                    </div>
-
-                    <div className="flex items-center gap-3 text-[10px] text-neutral-400 font-mono">
-                      <span className="w-20">Batch Supply:</span>
-                      <div className="flex-1 h-2 rounded-full bg-neutral-900 overflow-hidden">
-                        <div className={`h-full rounded-full ${
-                          item.supply >= 70 ? 'bg-teal-400' : 'bg-rose-400'
-                        }`} style={{ width: `${item.supply}%` }}></div>
-                      </div>
-                      <span className="w-8 text-right text-white font-bold">{item.supply}%</span>
-                    </div>
-                  </div>
-                </div>
+                  </td>
+                </tr>
               ))}
-            </div>
-          </div>
-
-          {/* Quick Insights Summary */}
-          <div className="space-y-6">
-            <div className="p-6 rounded-2xl bg-neutral-950/80 border border-white/10 shadow-xl text-xs space-y-4">
-              <h3 className="text-sm font-bold text-white uppercase font-ui tracking-wider flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-400" /> AI Executive Summary
-              </h3>
-              <p className="text-neutral-300 leading-relaxed">
-                • <strong>Strong Core Foundation</strong>: 88% of CSE students possess solid Data Structures and Python backend fundamentals.
-              </p>
-              <p className="text-neutral-300 leading-relaxed">
-                • <strong>Major Bottleneck (Cloud & DevOps)</strong>: 82% of visiting Tier-1 recruiters now require Docker/AWS knowledge, but only 38% of students have verified project evidence.
-              </p>
-              <p className="text-neutral-300 leading-relaxed">
-                • <strong>Immediate Intervention</strong>: Launching targeted hands-on bootcamps will directly unlock eligibility for 14 upcoming premium drives.
-              </p>
-            </div>
-          </div>
-
+            </tbody>
+          </table>
         </div>
-
-        {/* Actionable Curriculum Intervention Plan */}
-        <div className="p-6 rounded-2xl bg-neutral-950/80 border border-white/10 shadow-xl">
-          <h3 className="text-sm font-bold text-white uppercase font-ui tracking-wider mb-6 flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-amber-400" /> AI Recommended Training Interventions
-          </h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {curriculumActions.map((action, idx) => (
-              <div key={idx} className="p-4 rounded-xl bg-neutral-900/80 border border-white/10 flex flex-col justify-between">
-                <div>
-                  <div className="text-[10px] font-mono uppercase text-amber-400 mb-1">Timeframe: {action.timeframe}</div>
-                  <h4 className="text-sm font-bold text-white mb-2">{action.title}</h4>
-                  <p className="text-xs text-neutral-400 mb-3 leading-relaxed">{action.projectedImpact}</p>
-                </div>
-                <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px]">
-                  <span className="text-neutral-500">{action.targetAudience}</span>
-                  <button className="text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1">
-                    Deploy <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
       </div>
 
-      <AIAssistantModal />
-    </div>
+      {/* Recommended Interventions */}
+      <div className="app-card p-6 border-slate-200 space-y-4">
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-amber-500" />
+          <h3 className="font-bold text-base text-slate-900">AI Curriculum Recommendations</h3>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+          {curriculumActions.map((act, idx) => (
+            <div key={idx} className="p-4 rounded-xl bg-slate-50 border border-slate-100 flex flex-col justify-between space-y-3">
+              <div>
+                <span className="badge-blue text-[10px] font-semibold">{act.timeframe}</span>
+                <h4 className="font-bold text-sm text-slate-900 mt-2">{act.title}</h4>
+                <p className="text-xs text-slate-500 mt-1 font-medium">{act.targetAudience}</p>
+              </div>
+              <p className="text-xs text-emerald-700 font-bold border-t border-slate-200/60 pt-2">{act.projectedImpact}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </AppLayout>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Sparkles, X, Send, Bot, User, ArrowRight, CornerDownLeft, Loader2 } from 'lucide-react';
+import { Sparkles, X, Send, Bot, User, ArrowRight, Loader2 } from 'lucide-react';
 import api from '../api/client';
 import useAuthStore from '../store/authStore';
 
@@ -10,7 +10,7 @@ export default function AIAssistantModal() {
     {
       role: 'assistant',
       content: user?.role === 'student' 
-        ? `👋 Hi ${user?.name || 'Student'}! I'm your PlacementOps Career Copilot. Ask me how to prepare for interviews, check your match scores, or identify skill gaps!`
+        ? `👋 Hi ${user?.name || 'Student'}! I'm your PlacementOps Career Copilot. Ask me how to prepare for technical interviews, check your match scores, or identify skill gaps!`
         : user?.role === 'college_admin'
         ? `🏛️ Welcome Admin! I'm your Placement Operations Copilot. Ask me about batch statistics, drafting circulars, or schedule conflict resolution.`
         : `💼 Welcome Recruiter! I'm your Candidate Intelligence Copilot. Ask me to summarize shortlisted candidates, evaluate technical skills, or draft JDs.`
@@ -53,8 +53,6 @@ export default function AIAssistantModal() {
         setSuggestions(res.data.suggested_actions);
       }
     } catch (err) {
-      console.error(err);
-      // Fallback
       setMessages([...newMessages, {
         role: 'assistant',
         content: `💡 **AI Insight**: Based on your current profile and active drive criteria, focusing on System Design, Data Structures (DP & Graphs), and Cloud Deployment (Docker/AWS) provides the highest probability of interview clearance.`
@@ -66,78 +64,73 @@ export default function AIAssistantModal() {
 
   return (
     <>
-      {/* Floating Trigger Button */}
+      {/* Floating Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-amber-500/90 to-amber-600/90 text-black font-semibold shadow-[0_0_25px_rgba(245,158,11,0.4)] hover:shadow-[0_0_35px_rgba(245,158,11,0.6)] hover:scale-105 transition-all duration-300 backdrop-blur-md border border-amber-300/40"
+        className="fixed bottom-6 right-6 z-40 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs uppercase tracking-wider py-2.5 px-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2"
       >
-        <Sparkles className="w-5 h-5 animate-pulse" />
-        <span className="font-ui text-xs tracking-wider uppercase">AI Copilot</span>
+        <Sparkles className="w-4 h-4" />
+        <span>AI Copilot</span>
       </button>
 
-      {/* Slide-in Chat Drawer / Modal */}
+      {/* Assistant Modal Window */}
       {isOpen && (
-        <div className="fixed bottom-20 right-6 z-50 w-[420px] max-w-[calc(100vw-3rem)] h-[580px] rounded-2xl bg-neutral-950/95 border border-amber-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.8)] flex flex-col backdrop-blur-xl overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300">
+        <div className="fixed bottom-20 right-6 z-50 w-full max-w-md bg-white rounded-2xl border border-slate-200 shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-200">
           
           {/* Header */}
-          <div className="p-4 border-b border-white/10 bg-gradient-to-r from-amber-950/40 via-neutral-900 to-neutral-950 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
-                <Sparkles className="w-5 h-5" />
+          <div className="p-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center">
+                <Bot className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-sm text-white flex items-center gap-2">
-                  PlacementOps AI
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase font-mono">
-                    {user?.role === 'student' ? 'Career' : user?.role === 'college_admin' ? 'Operations' : 'Recruiter'}
-                  </span>
-                </h3>
-                <p className="text-[11px] text-neutral-400">Grounded Intelligence Assistant</p>
+                <h3 className="font-bold text-sm text-slate-900 leading-tight">PlacementOps Copilot</h3>
+                <p className="text-[11px] text-emerald-600 font-medium">● Online • Real-time AI Assistant</p>
               </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-neutral-400 hover:text-white p-1 rounded-lg hover:bg-white/5 transition-colors"
+              className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
           {/* Messages Area */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-4 text-xs">
-            {messages.map((msg, i) => (
+          <div className="p-4 h-80 overflow-y-auto space-y-3 bg-[#F8FAFC]">
+            {messages.map((msg, idx) => (
               <div
-                key={i}
-                className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                key={idx}
+                className={`flex gap-2.5 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.role === 'assistant' && (
-                  <div className="w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0 mt-0.5">
+                  <div className="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center shrink-0 mt-0.5">
                     <Bot className="w-4 h-4" />
                   </div>
                 )}
                 <div
-                  className={`p-3.5 rounded-2xl max-w-[85%] leading-relaxed ${
+                  className={`p-3 rounded-2xl text-xs max-w-[82%] leading-relaxed ${
                     msg.role === 'user'
-                      ? 'bg-amber-500 text-black font-medium rounded-tr-none'
-                      : 'bg-neutral-900/90 border border-white/10 text-neutral-200 rounded-tl-none prose prose-invert prose-xs'
+                      ? 'bg-blue-600 text-white font-medium rounded-tr-none shadow-xs'
+                      : 'bg-white border border-slate-200 text-slate-700 rounded-tl-none shadow-xs'
                   }`}
                   dangerouslySetInnerHTML={{
                     __html: msg.content.replace(/\n/g, '<br />').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                   }}
                 />
                 {msg.role === 'user' && (
-                  <div className="w-7 h-7 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-white shrink-0 mt-0.5">
+                  <div className="w-7 h-7 rounded-lg bg-slate-200 text-slate-700 flex items-center justify-center shrink-0 mt-0.5">
                     <User className="w-4 h-4" />
                   </div>
                 )}
               </div>
             ))}
             {loading && (
-              <div className="flex gap-3 justify-start items-center text-neutral-400 text-xs">
-                <div className="w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+              <div className="flex gap-2.5 justify-start items-center text-slate-400 text-xs">
+                <div className="w-7 h-7 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
                   <Loader2 className="w-4 h-4 animate-spin" />
                 </div>
-                <div className="p-3 rounded-2xl bg-neutral-900/90 border border-white/10 text-neutral-400">
+                <div className="p-3 rounded-2xl bg-white border border-slate-200 text-slate-500 shadow-xs">
                   Analyzing placement graph & generating response...
                 </div>
               </div>
@@ -146,12 +139,12 @@ export default function AIAssistantModal() {
           </div>
 
           {/* Quick Prompt Chips */}
-          <div className="px-4 py-2 border-t border-white/5 bg-neutral-950/60 overflow-x-auto flex gap-2 no-scrollbar">
+          <div className="px-3.5 py-2 border-t border-slate-100 bg-slate-50 overflow-x-auto flex gap-1.5 no-scrollbar">
             {suggestions.map((s, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSend(s)}
-                className="shrink-0 px-2.5 py-1 rounded-full bg-white/5 hover:bg-amber-500/10 border border-white/10 hover:border-amber-500/30 text-[11px] text-neutral-300 hover:text-amber-300 transition-all flex items-center gap-1"
+                className="shrink-0 px-2.5 py-1 rounded-full bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-[11px] text-slate-600 hover:text-blue-700 transition-all flex items-center gap-1 shadow-2xs font-medium"
               >
                 <span>{s}</span>
                 <ArrowRight className="w-3 h-3 opacity-60" />
@@ -165,19 +158,19 @@ export default function AIAssistantModal() {
               e.preventDefault();
               handleSend();
             }}
-            className="p-3 border-t border-white/10 bg-neutral-900/90 flex items-center gap-2"
+            className="p-3 border-t border-slate-100 bg-white flex items-center gap-2"
           >
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask anything about placements..."
-              className="flex-1 bg-black/40 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500/50 transition-colors"
+              className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition-all"
             />
             <button
               type="submit"
               disabled={loading || !input.trim()}
-              className="p-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-semibold transition-colors flex items-center justify-center"
+              className="p-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white transition-colors flex items-center justify-center shadow-xs"
             >
               <Send className="w-4 h-4" />
             </button>
