@@ -22,6 +22,8 @@ services:
     build: .
     container_name: placementops-api
     env_file: .env
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://placementops:placementops@postgres:5432/placementops_db
     ports:
       - "8000:8000"
     depends_on:

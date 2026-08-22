@@ -4,9 +4,9 @@ PlacementOps AI — Student, Skill, SkillTaxonomy Models (§6.2, §6.3, §6.4)
 
 from sqlalchemy import (
     Column, String, Integer, Numeric, DateTime, Text,
-    Enum as SAEnum, ForeignKey,
+    Enum as SAEnum, ForeignKey, JSON, Uuid as UUID
 )
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+JSONB = JSON
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from uuid import uuid4

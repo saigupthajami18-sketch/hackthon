@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Campus Connect — Register</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <!-- Same font stack as login.html -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #0A0A0A;
+      color: #e5e2e1;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Background ───────────────────── */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .bg-layer img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .bg-layer::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(10,10,10,0.82) 0%,
+        rgba(10,10,10,0.70) 100%
+      );
+      backdrop-filter: blur(2px);
+    }
+
+    /* ── Glass Card ───────────────────── */
+    .glass-card {
+      background: rgba(12, 11, 11, 0.72);
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 1rem;
+      box-shadow:
+        0 48px 96px -24px rgba(0,0,0,0.85),
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        inset 0 0 60px -40px rgba(220,38,36,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Gold top-edge highlight */
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(226,184,117,0.5), transparent);
+    }
+
+    /* ── Headline ─────────────────────── */
+    .display-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-style: italic;
+      font-size: clamp(40px, 7vw, 56px);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      background: linear-gradient(135deg, #FF6B6B 0%, #DC2626 40%, #E2B875 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Sub-label ────────────────────── */
+    .sub-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 400;
+      font-size: 9.5px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #B8924A;
+    }
+
+    /* ── Role Tabs ────────────────────── */
+    .role-tab {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 11px 0;
+      border-bottom: 1.5px solid rgba(255,255,255,0.05);
+      color: #5a5450;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      background: transparent;
+      flex: 1;
+    }
+
+    .role-tab:hover:not(.active) {
+      color: #A89F98;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .role-tab.active {
+      color: #E2B875;
+      border-bottom: 1.5px solid #E2B875;
+    }
+
+    /* ── Field Labels ─────────────────── */
+    .field-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #A89F98;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    /* ── Inputs ───────────────────────── */
+    .input-glass {
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      font-weight: 400;
+      color: #F5F0EB;
+      background-color: rgba(5,4,4,0.75);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 0.5rem;
+      padding: 12px 12px 12px 42px;
+      width: 100%;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .input-glass.no-icon {
+      padding-left: 14px;
+    }
+
+    .input-glass:focus {
+      outline: none;
+      border-color: rgba(226,184,117,0.4);
+      box-shadow: 0 0 0 3px rgba(226,184,117,0.05), 0 0 18px rgba(220,38,36,0.1);
+      caret-color: #E2B875;
+    }
+
+    .input-glass::placeholder {
+      color: #3e3a36;
+      font-weight: 300;
+    }
+
+    /* Select arrow */
+    select.input-glass {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2378716C' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 32px;
+    }
+
+    select.input-glass option {
+      background-color: #1a1818;
+      color: #e5e2e1;
+    }
+
+    /* Icon inside input */
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #4a4540;
+      font-size: 17px;
+      pointer-events: none;
+      font-variation-settings: 'FILL' 0;
+    }
+
+    /* ── Submit Button ────────────────── */
+    .btn-primary {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #FFF5F5;
+      background: linear-gradient(175deg, #E03535 0%, #B91C1C 50%, #7F1D1D 100%);
+      border-top: 1px solid rgba(255,120,120,0.25);
+      border-radius: 0.5rem;
+      padding: 14px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -6px rgba(139,0,0,0.45);
+      filter: brightness(1.08);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+      transition: all 0.1s;
+    }
+
+    /* ── Divider ──────────────────────── */
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* ── Footer text ──────────────────── */
+    .footer-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      color: #5a5450;
+      text-align: center;
+    }
+
+    .footer-link {
+      color: #A89F98;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(168,159,152,0.3);
+      transition: color 0.2s ease;
+    }
+
+    .footer-link:hover { color: #E2B875; }
+
+    /* ── Layout ───────────────────────── */
+    .page-wrap {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .card-inner {
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* Password toggle */
+    .pw-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #4a4540;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      font-size: 17px;
+    }
+    .pw-toggle:hover { color: #A89F98; }
+
+    /* Hidden company fields */
+    #company-fields { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="bg-layer">
+    <img
+      src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3R0uAPZKc7qmq-p-Muh7OhRWnyVF5Rcnehef_dV26ejI5rLa-s4alV8shm8R5IRIRUoHDKpSdub8kmc1l6BzIc3oJRnz3Bzs6BmE6v6iBIzsAIbHKRCa1BhMAAahldAl7HhlM8qg8L5pg5Vux7-raJ-dZLNGYsKn90Ba8WNr26CTdQbMEzoNB7jONKxSAl9t2Hzi6GcB-BAq2A2U70I20D1RUBA6pcPxPZu-bFKqZzOuioRIfpXYS0l4DX6Mu66L5MQ"
+      alt="Campus Background"
+    />
+  </div>
+
+  <!-- Page -->
+  <div class="page-wrap">
+    <div class="glass-card" style="width:100%; max-width:500px;">
+      <div class="card-inner">
+
+        <!-- Header -->
+        <div style="text-align:center; display:flex; flex-direction:column; gap:7px;">
+          <h1 class="display-headline">Campus Connect</h1>
+          <p class="sub-label">AI-Powered Campus Placement Platform</p>
+        </div>
+
+        <!-- Role Tabs -->
+        <div style="display:flex; border-bottom:1px solid rgba(255,255,255,0.04);">
+          <button class="role-tab active" id="tab-student" onclick="switchTab('student')">Student</button>
+          <button class="role-tab"        id="tab-company" onclick="switchTab('company')">Company</button>
+        </div>
+
+        <!-- Form -->
+        <form style="display:flex; flex-direction:column; gap:16px;" onsubmit="return false;">
+
+          <!-- ── STUDENT FIELDS ── -->
+          <div id="student-fields">
+
+            <!-- Full Name -->
+            <div style="margin-bottom:14px;">
+              <label class="field-label" for="s-name">Full Name</label>
+              <div class="input-wrap">
+                <span class="material-symbols-outlined input-icon">person</span>
+                <input class="input-glass" id="s-name" type="text" placeholder="e.g. Ravi Kumar" />
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div style="margin-bottom:14px;">
+              <label class="field-label" for="s-email">Email Address</label>
+              <div class="input-wrap">
+                <span class="material-symbols-outlined input-icon">mail</span>
+                <input class="input-glass" id="s-email" type="email" placeholder="name@college.edu" />
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div style="margin-bottom:14px;">
+              <label class="field-label" for="s-phone">Phone Number</label>
+              <div class="input-wrap">
+                <span class="material-symbols-outlined input-icon">call</span>
+                <input class="input-glass" id="s-phone" type="tel" placeholder="+91 98765 43210" />
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div style="margin-bottom:14px;">
+              <label class="field-label" for="s-password">Password</label>
+              <div class="input-wrap">
+                <span class="material-symbols-outlined input-icon">lock</span>
+                <input class="input-glass" id="s-password" type="password" placeholder="Min. 8 characters" style="padding-right:42px;" />
+                <button class="pw-toggle" type="button" onclick="togglePw('s-password', this)">
+                  <span class="material-symbols-outlined" style="font-size:17px; font-variation-settings:'FILL' 0;">visibility_off</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Roll No + College Domain -->
+            <div class="two-col" style="margin-bottom:14px;">
+              <div>
+                <label class="field-label" for="s-rollno">Roll Number</label>
+                <div class="input-wrap">
+                  <span class="material-symbols-outlined input-icon">badge</span>
+                  <input class="input-glass" id="s-rollno" type="text" placeholder="21CS001" />
+                </div>
+              </div>
+              <div>
+                <label class="field-label" for="s-domain">College Domain</label>
+                <input class="input-glass no-icon" id="s-domain" type="text" placeholder="university.edu" />
+              </div>
+            </div>
+
+            <!-- Branch + Graduation Year -->
+            <div class="two-col">
+              <div>
+                <label class="field-label" for="s-branch">Branch</label>
+                <select class="input-glass no-icon" id="s-branch">
+                  <option value="" disabled selected>Select</option>
+                  <option value="cse">CSE</option>
+                  <option value="ece">ECE</option>
+                  <option value="mech">Mechanical</option>
+                  <option value="civil">Civil</option>
+                  <option value="it">IT</option>
+                  <option value="eee">EEE</option>
+                </select>
+              </div>
+              <div>
+                <label class="field-label" for="s-year">Grad. Year</label>
+                <select class="input-glass no-icon" id="s-year">
+                  <option value="" disabled selected>Year</option>
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
+                  <option value="2027">2027</option>
+                  <option value="2028">2028</option>
+                </select>
+              </div>
+            </div>
+
+          </div><!-- end student-fields -->
+
+          <!-- ── COMPANY FIELDS ── -->
+          <div id="company-fields">
+
+            <!-- Full Name -->
+            <div style="margin-bottom:14px;">
+              <label class="field-label" for="c-name">Contact Name</label>
+              <div class="input-wrap">
+                <span class="material-symbols-outlined input-icon">person</span>
+                <input class="input-glass" id="c-name" type="text" placeholder="e.g. Priya Sharma" />
+              </div>
+            </div>
+
+            <!-- Company Name -->
+            <div style="margin-bottom:14px;">
+              <label class="field-label" for="c-company">Company Name</label>
+              <div class="input-wrap">
+                <span class="material-symbols-outlined input-icon">business</span>
+                <input class="input-glass" id="c-company" type="text" placeholder="e.g. Infosys Ltd." />
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div style="margin-bottom:14px;">
+              <label class="field-label" for="c-email">Work Email</label>
+              <div class="input-wrap">
+                <span class="material-symbols-outlined input-icon">mail</span>
+                <input class="input-glass" id="c-email" type="email" placeholder="recruiter@company.com" />
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div style="margin-bottom:14px;">
+              <label class="field-label" for="c-phone">Phone Number</label>
+              <div class="input-wrap">
+                <span class="material-symbols-outlined input-icon">call</span>
+                <input class="input-glass" id="c-phone" type="tel" placeholder="+91 98765 43210" />
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div>
+              <label class="field-label" for="c-password">Password</label>
+              <div class="input-wrap">
+                <span class="material-symbols-outlined input-icon">lock</span>
+                <input class="input-glass" id="c-password" type="password" placeholder="Min. 8 characters" style="padding-right:42px;" />
+                <button class="pw-toggle" type="button" onclick="togglePw('c-password', this)">
+                  <span class="material-symbols-outlined" style="font-size:17px; font-variation-settings:'FILL' 0;">visibility_off</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Note: company accounts need college verification -->
+            <p style="
+              font-family:'Space Grotesk',sans-serif;
+              font-size:10.5px; color:#5a5450;
+              margin-top:12px; line-height:1.6;
+              padding:10px 12px;
+              background:rgba(226,184,117,0.04);
+              border:1px solid rgba(226,184,117,0.1);
+              border-radius:6px;
+            ">
+              ⚠ Company accounts require college verification before activation.
+            </p>
+
+          </div><!-- end company-fields -->
+
+          <!-- Submit -->
+          <button class="btn-primary" type="submit">
+            Create Account
+            <span class="material-symbols-outlined" style="font-size:16px; font-variation-settings:'FILL' 0;">arrow_forward</span>
+          </button>
+
+        </form>
+
+        <!-- Footer -->
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <hr class="divider" />
+          <p class="footer-text">
+            Already have an account?
+            <a class="footer-link" href="login.html">Sign in</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(role) {
+      // Tabs
+      document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab-' + role).classList.add('active');
+      // Fields
+      document.getElementById('student-fields').style.display = role === 'student' ? 'block' : 'none';
+      document.getElementById('company-fields').style.display = role === 'company' ? 'block' : 'none';
+    }
+
+    function togglePw(id, btn) {
+      const input = document.getElementById(id);
+      const icon  = btn.querySelector('.material-symbols-outlined');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility';
+      } else {
+        input.type = 'password';
+        icon.textContent = 'visibility_off';
+      }
+    }
+  </script>
+</body>
+</html>

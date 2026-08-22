@@ -227,3 +227,26 @@ class NotificationStatus(str, enum.Enum):
 class ActorType(str, enum.Enum):
     HUMAN = "human"
     AI_AGENT = "ai_agent"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Register All Models
+# ═══════════════════════════════════════════════════════════════════════════════
+# Importing these ensures SQLAlchemy's declarative base knows about all relationships.
+
+from .user import User
+from .student import Student
+from .college import College
+from .company import Company
+from .job_drive import JobDrive
+from .application import Application
+from .interview_slot import InterviewSlot
+from .panel import Panel
+from .room import Room
+from .feedback import Feedback
+from .offer import Offer
+from .notification import Notification
+from .audit_log import AuditLog
+from .certification import Certification
+from .coding_profile import CodingProfile
+from .internship import Internship
+from .project import Project

@@ -2,8 +2,8 @@
 PlacementOps AI — Application Model (§6.13)
 """
 
-from sqlalchemy import Column, String, Numeric, DateTime, Text, Enum as SAEnum, ForeignKey, UniqueConstraint
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy import Column, String, Numeric, Text, DateTime, Enum as SAEnum, ForeignKey, JSON, Uuid as UUID, UniqueConstraint
+JSONB = JSON
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from uuid import uuid4

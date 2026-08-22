@@ -2,8 +2,7 @@
 PlacementOps AI — InterviewSlot Model (§6.16)
 """
 
-from sqlalchemy import Column, String, DateTime, Enum as SAEnum, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, DateTime, Enum as SAEnum, ForeignKey, Uuid as UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from uuid import uuid4

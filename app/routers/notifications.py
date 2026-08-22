@@ -1,48 +1,75 @@
+"""
+PlacementOps AI — Notifications Router
+"""
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from typing import List
+from sqlalchemy.future import select
 import uuid
 
 from app.database import get_db
-from app.models import UserRole
+from app.models.notification import Notification
+from app.models import UserRole, NotificationStatus
 from app.schemas.auth import TokenData
-from app.services.auth_service import get_current_user
 from app.middleware.rbac import require_roles
-from app.schemas.notifications import NotificationSendRequest, NotificationResponse
-from app.services.notification_service import send_notification, get_user_notifications, mark_as_read
 
 router = APIRouter(prefix="/notifications", tags=["Notifications"])
 
-@router.post("/send", response_model=NotificationResponse)
-async def trigger_notification(
-    request: NotificationSendRequest,
-    db: AsyncSession = Depends(get_db),
-    # System endpoint - typically protected by internal auth or service key, 
-    # but restricting to COLLEGE_ADMIN/COMPANY_RECRUITER for manual trigger testing
-    current_user: TokenData = Depends(require_roles([UserRole.COLLEGE_ADMIN, UserRole.COMPANY_RECRUITER]))
-):
-    try:
-        notification = await send_notification(db, request)
-        return notification
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("", response_model=List[NotificationResponse])
-async def fetch_my_notifications(
+@router.get("")
+async def get_notifications(
     db: AsyncSession = Depends(get_db),
-    current_user: TokenData = Depends(get_current_user)
+    current_user: TokenData = Depends(require_roles([UserRole.STUDENT, UserRole.COLLEGE_ADMIN, UserRole.COMPANY_RECRUITER]))
 ):
-    notifications = await get_user_notifications(db, current_user.user_id)
-    return notifications
+    """Get notifications for the currently authenticated user."""
+    result = await db.execute(
+        select(Notification)
+        .where(Notification.user_id == uuid.UUID(current_user.user_id))
+        .order_by(Notification.sent_at.desc())
+        .limit(50)
+    )
+    notifications = result.scalars().all()
+    return [
+        {
+            "notification_id": str(n.notification_id),
+            "type": n.type.value if n.type else None,
+            "channel": n.channel.value if n.channel else None,
+            "message": n.message,
+            "status": n.status.value if n.status else None,
+            "created_at": n.sent_at.isoformat() if n.sent_at else None,
+        }
+        for n in notifications
+    ]
 
-@router.post("/{notification_id}/mark-read", response_model=NotificationResponse)
-async def mark_notification_read(
+
+@router.post("/send")
+async def send_notification(
+    payload: dict,
+    db: AsyncSession = Depends(get_db),
+    current_user: TokenData = Depends(require_roles([UserRole.COLLEGE_ADMIN]))
+):
+    from app.models import NotificationType, NotificationChannel
+    notif = Notification(
+        user_id=uuid.UUID(payload["user_id"]),
+        type=NotificationType(payload.get("type", "generic")),
+        channel=NotificationChannel.IN_APP,
+        message=payload["message"],
+        status=NotificationStatus.SENT,
+    )
+    db.add(notif)
+    await db.commit()
+    return {"message": "Notification sent"}
+
+
+@router.post("/{notification_id}/mark-read")
+async def mark_read(
     notification_id: str,
     db: AsyncSession = Depends(get_db),
-    current_user: TokenData = Depends(get_current_user)
+    current_user: TokenData = Depends(require_roles([UserRole.STUDENT, UserRole.COLLEGE_ADMIN, UserRole.COMPANY_RECRUITER]))
 ):
-    try:
-        notification = await mark_as_read(db, notification_id, current_user.user_id)
-        return notification
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    notif = await db.get(Notification, uuid.UUID(notification_id))
+    if not notif or str(notif.user_id) != current_user.user_id:
+        raise HTTPException(status_code=404, detail="Notification not found")
+    notif.status = NotificationStatus.SENT
+    await db.commit()
+    return {"message": "Marked as read"}

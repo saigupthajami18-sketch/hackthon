@@ -2,8 +2,8 @@
 PlacementOps AI — Project Model (§6.5)
 """
 
-from sqlalchemy import Column, String, Integer, Text, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy import Column, String, Integer, DateTime, Text, ForeignKey, JSON, Uuid as UUID
+JSONB = JSON
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from uuid import uuid4

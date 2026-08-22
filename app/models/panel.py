@@ -2,8 +2,8 @@
 PlacementOps AI — Panel & Room Models (§6.14, §6.15)
 """
 
-from sqlalchemy import Column, String, Integer, DateTime, Enum as SAEnum, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy import Column, String, DateTime, Enum as SAEnum, ForeignKey, JSON, Uuid as UUID
+JSONB = JSON
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from uuid import uuid4

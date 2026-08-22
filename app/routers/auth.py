@@ -3,6 +3,7 @@ PlacementOps AI — Auth Router
 """
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from datetime import timedelta
@@ -95,8 +96,8 @@ async def register_company(user_data: CompanyRegister, db: AsyncSession = Depend
 
 
 @router.post("/login", response_model=Token)
-async def login(login_data: UserLogin, db: AsyncSession = Depends(get_db)):
-    result = await db.execute(select(User).where(User.email == login_data.email))
+async def login(login_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(User).where(User.email == login_data.username))
     user = result.scalars().first()
 
     if not user or not verify_password(login_data.password, user.password_hash):

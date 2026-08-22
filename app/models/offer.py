@@ -2,8 +2,7 @@
 PlacementOps AI — Offer Model (§6.18)
 """
 
-from sqlalchemy import Column, String, Numeric, DateTime, Enum as SAEnum, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, Numeric, DateTime, Enum as SAEnum, ForeignKey, Uuid as UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from uuid import uuid4

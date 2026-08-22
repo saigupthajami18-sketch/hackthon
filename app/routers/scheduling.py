@@ -81,16 +81,20 @@ async def confirm_schedule(
     result = await db.execute(stmt)
     slots = result.scalars().all()
     
-    if not slots:
-        raise HTTPException(status_code=400, detail="No draft slots to confirm")
-        
     for slot in slots:
         slot.status = SlotStatus.CONFIRMED
         
     drive.status = DriveStatus.SCHEDULE_CONFIRMED
     await db.commit()
     
-    return {"message": f"Confirmed {len(slots)} slots"}
+    # Automated Email & Google Calendar synchronization & n8n webhook dispatch
+    from app.services.automation_service import trigger_interview_confirmation_automation
+    automation_result = await trigger_interview_confirmation_automation(db, drive, slots)
+    
+    return {
+        "message": f"Confirmed {len(slots)} slots. Automated emails and calendar invites sent to all candidates.",
+        "automation": automation_result
+    }
 
 from app.schemas.replanning import RescheduleRequest, ReplanDiffResponse
 from app.services.replanning_service import generate_minimal_replan

@@ -1,0 +1,62 @@
+User ID,Name,Email,Role,Is Verified
+7caa465a-f11d-4ef1-adcf-402fe4273ee3,Admin User,admin@tech.edu,COLLEGE_ADMIN,True
+78c5dc25-02e3-47f9-865b-6fddd90bc120,Recruiter 1,recruiter1@company1.com,COMPANY_RECRUITER,True
+320ca8b3-2b0a-4a43-8d21-ab2d904e1b36,Recruiter 2,recruiter2@company2.com,COMPANY_RECRUITER,True
+e7f5b88a-849d-4a13-a8ca-98dcee2c2940,Recruiter 3,recruiter3@company3.com,COMPANY_RECRUITER,True
+7d02d406-e44c-4d97-932d-c60dd3ba1bf3,Recruiter 4,recruiter4@company4.com,COMPANY_RECRUITER,True
+d8cb9886-c83d-4320-a238-5cff90714c77,Recruiter 5,recruiter5@company5.com,COMPANY_RECRUITER,True
+01571ef5-40f0-4109-a455-e63dd3c42aad,Student 1,student1@tech.edu,STUDENT,True
+f24e67c8-f8b3-4fb5-ab2f-71cbd0d305ee,Student 2,student2@tech.edu,STUDENT,True
+ed8c6999-bf42-4fc7-895b-8eb9531f00b8,Student 3,student3@tech.edu,STUDENT,True
+af2ef3a6-40e3-4fff-ada5-12f9e62dd22b,Student 4,student4@tech.edu,STUDENT,True
+32cac714-6d93-4cf0-b562-1c7793fff533,Student 5,student5@tech.edu,STUDENT,True
+c491ce92-8166-4e4b-bdf2-42c95ed19c04,Student 6,student6@tech.edu,STUDENT,True
+ab4dadd1-4d21-453a-a7fa-b9f338f93d8d,Student 7,student7@tech.edu,STUDENT,True
+79701dc5-7644-45c5-bd50-a506d893c5ba,Student 8,student8@tech.edu,STUDENT,True
+96b8d8dc-54e4-41b5-a1e9-ad0dbe5096d8,Student 9,student9@tech.edu,STUDENT,True
+90f4d0b9-11a5-4e59-bebe-7b0ca0309c56,Student 10,student10@tech.edu,STUDENT,True
+6deda34f-3ccb-454a-ade4-d715212b942c,Student 11,student11@tech.edu,STUDENT,True
+8954b757-c975-4fd3-b9a6-a5ec3176e50e,Student 12,student12@tech.edu,STUDENT,True
+64943fb9-6e7d-48d3-8aed-a39561867457,Student 13,student13@tech.edu,STUDENT,True
+8f8e48d5-279d-4648-b192-8fc611a4e6c2,Student 14,student14@tech.edu,STUDENT,True
+e3691ba1-59d5-4d87-be93-d64e18bdd45c,Student 15,student15@tech.edu,STUDENT,True
+e87a584b-6216-4d39-8ab1-affef816081a,Student 16,student16@tech.edu,STUDENT,True
+cb2df419-53c2-443d-a3ba-bb6dc0fa2d38,Student 17,student17@tech.edu,STUDENT,True
+cb80df41-136d-4d95-a556-2c965c03ff22,Student 18,student18@tech.edu,STUDENT,True
+93613028-9733-4b7c-8fca-335d494e63eb,Student 19,student19@tech.edu,STUDENT,True
+d4bfe99c-3f2c-4297-aa76-902c95def729,Student 20,student20@tech.edu,STUDENT,True
+9bddf7ac-bbc4-4d55-bcca-7cf21a57752c,Student 21,student21@tech.edu,STUDENT,True
+d50b4366-f42a-4a5a-a646-59531dcef286,Student 22,student22@tech.edu,STUDENT,True
+58f90713-a764-4f5d-bf6f-59b50e6e4847,Student 23,student23@tech.edu,STUDENT,True
+ffdbb454-880e-4599-bbea-209a20dc1a3a,Student 24,student24@tech.edu,STUDENT,True
+11082d17-706d-4b29-90b8-a10b2de759fc,Student 25,student25@tech.edu,STUDENT,True
+e491aeec-6ecc-412b-9f97-efaea6dffbc0,Student 26,student26@tech.edu,STUDENT,True
+73670251-c5c1-4ff3-a006-bf31d99b6f4c,Student 27,student27@tech.edu,STUDENT,True
+9c289eb7-1893-42f5-a1e1-18805e70aef1,Student 28,student28@tech.edu,STUDENT,True
+436c6b4f-b48a-48bd-9f53-df1ea9c6f063,Student 29,student29@tech.edu,STUDENT,True
+f58cb1ef-4846-4a1c-956d-45fc0c45daf9,Student 30,student30@tech.edu,STUDENT,True
+b28241f3-ef83-4b89-86e5-bf70f6b14c4d,Student 31,student31@tech.edu,STUDENT,True
+3d804d91-a049-46e8-820d-886659b1a976,Student 32,student32@tech.edu,STUDENT,True
+a9ae47e8-76ff-41ea-a755-d6b375cb6ea5,Student 33,student33@tech.edu,STUDENT,True
+af6130f8-294c-48c8-81c8-6ac55962be84,Student 34,student34@tech.edu,STUDENT,True
+0080cc61-804f-4b7d-b02e-85153f471db4,Student 35,student35@tech.edu,STUDENT,True
+0570f2d7-d093-4e4e-8fde-b3a24516fa31,Student 36,student36@tech.edu,STUDENT,True
+d320969b-dfff-48e8-9722-bcf20815a998,Student 37,student37@tech.edu,STUDENT,True
+e5f2b0e0-5619-440a-a38c-6357cbaa9b56,Student 38,student38@tech.edu,STUDENT,True
+72f7f5df-4a28-4063-9153-245930065abe,Student 39,student39@tech.edu,STUDENT,True
+99994dd8-f3f8-45b8-86b0-65bfddc57384,Student 40,student40@tech.edu,STUDENT,True
+3f3810ab-9859-4a4b-a021-d6026c26f27c,Student 41,student41@tech.edu,STUDENT,True
+00ee7f8b-0ce4-4e9f-88ea-4af72d76be34,Student 42,student42@tech.edu,STUDENT,True
+4c53b838-0b05-425f-bab2-5a667953dc8b,Student 43,student43@tech.edu,STUDENT,True
+2362ea48-4668-4c29-ac3b-b620939d4e85,Student 44,student44@tech.edu,STUDENT,True
+e4b138a2-b736-45bd-add0-662e90a2672a,Student 45,student45@tech.edu,STUDENT,True
+52954bba-dbd5-45cd-ba04-76cad2390263,Student 46,student46@tech.edu,STUDENT,True
+4a8e774a-d9df-4c7d-ba31-14da528efdda,Student 47,student47@tech.edu,STUDENT,True
+96993d50-e7b3-4fce-8144-1012468bfd42,Student 48,student48@tech.edu,STUDENT,True
+a4c77e41-438c-48d3-aeed-1f74e3c13155,Student 49,student49@tech.edu,STUDENT,True
+8fec0c93-f4af-4a55-a55d-ba53c5d38e0d,Student 50,student50@tech.edu,STUDENT,True
+b38f5570-73b7-4090-bc06-924d5522e4d5,Pending Student 1,pending1@tech.edu,STUDENT,False
+e4070dcb-bf25-488d-9d77-599235449dd2,Pending Student 2,pending2@tech.edu,STUDENT,False
+118b0b3d-dceb-4ff9-b37b-3d7378376853,Pending Student 3,pending3@tech.edu,STUDENT,False
+00a22fd5-de26-4f86-b104-33efe4ec51e4,Pending Student 4,pending4@tech.edu,STUDENT,False
+4f09df2d-7370-4be2-a813-4e8441024774,Pending Student 5,pending5@tech.edu,STUDENT,False

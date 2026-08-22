@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Campus Connect — Executive Student Dashboard</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <!-- Google Fonts (Matching Login/Register) -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-background": "#e5e2e1",
+            "surface-container-high": "#2a2a2a",
+            "primary-container": "#dc2626",
+            "tertiary": "#ebc07c",
+            "glass-border": "rgba(255, 255, 255, 0.08)",
+            "surface": "#131313",
+            "secondary": "#cec5bf",
+            "titanium-accent": "#78716C",
+            "on-surface": "#e5e2e1",
+            "error-container": "#93000a",
+            "surface-variant": "#353534",
+            "primary": "#ffb4ab",
+            "on-primary": "#690005",
+            "surface-bright": "#3a3939",
+            "crimson-primary": "#DC2626",
+            "surface-elevated": "#121212",
+            "surface-container": "#201f1f",
+            "obsidian-base": "#0A0A0A",
+            "background": "#131313",
+            "crimson-deep": "#8B0000",
+            "gold-leaf": "#E2B875",
+            "gold-dim": "#B8924A",
+            "titanium-muted": "#78716C",
+            "soft-white": "#F5F0EB",
+            "warm-gray": "#A89F98"
+          },
+          fontFamily: {
+            "display": ["Cormorant Garamond", "serif"],
+            "ui": ["Space Grotesk", "sans-serif"],
+            "body": ["Inter", "sans-serif"]
+          },
+          spacing: {
+            "margin-mobile": "24px",
+            "margin-desktop": "80px",
+            "gutter": "32px",
+            "section-gap": "120px"
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    
+    body {
+      background-color: #0A0A0A;
+      color: #e5e2e1;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .executive-gradient-bg {
+      background: radial-gradient(circle at top right, rgba(20, 20, 20, 1) 0%, rgba(10, 10, 10, 1) 100%);
+    }
+
+    .glass-card {
+      background: rgba(12, 11, 11, 0.72);
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 4px 24px -4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+    
+    .display-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      background: linear-gradient(135deg, #FF6B6B 0%, #DC2626 40%, #E2B875 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .ui-text {
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* Subdued scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(120, 113, 108, 0.3); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(120, 113, 108, 0.6); }
+  </style>
+</head>
+<body class="bg-background text-on-surface executive-gradient-bg min-h-screen antialiased flex flex-col">
+
+  <!-- TopNavBar -->
+  <nav class="bg-obsidian-base/80 backdrop-blur-xl fixed top-0 w-full z-50 border-b border-glass-border">
+    <div class="max-w-[1440px] mx-auto px-margin-desktop flex justify-between items-center h-[72px]">
+      <a class="display-headline font-semibold text-2xl" href="#">Campus Connect</a>
+      
+      <div class="hidden md:flex flex-1 mx-gutter max-w-md">
+        <div class="relative w-full">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-titanium-muted" style="font-variation-settings: 'FILL' 0;">search</span>
+          <input class="w-full bg-[#050505] border border-glass-border rounded-lg py-2 pl-10 pr-4 font-body text-sm text-soft-white focus:outline-none focus:border-gold-leaf/40 focus:ring-1 focus:ring-gold-leaf/40 transition-all placeholder:text-[#4a4540]" placeholder="Global placement search..." type="text"/>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-6 ml-auto md:ml-0">
+        <button class="text-titanium-muted hover:text-gold-leaf transition-colors relative">
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+          <span class="absolute top-0 right-0 w-2 h-2 bg-crimson-primary rounded-full border border-background" id="notification-badge" style="display:none;"></span>
+        </button>
+        <button class="text-titanium-muted hover:text-gold-leaf transition-colors" onclick="logout()">
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">logout</span>
+        </button>
+        <div class="h-9 w-9 rounded-full border border-glass-border overflow-hidden cursor-pointer hover:border-gold-leaf transition-colors">
+          <img alt="Profile" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=Student&background=222&color=E2B875" id="nav-avatar"/>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex flex-1 pt-[72px] max-w-[1440px] w-full mx-auto">
+    <!-- Left Sidebar -->
+    <aside class="w-64 fixed left-0 top-[72px] bottom-0 bg-transparent border-r border-glass-border z-40 hidden md:flex flex-col">
+      <div class="p-6 border-b border-glass-border flex flex-col items-center text-center">
+        <div class="w-20 h-20 rounded-full border border-gold-leaf/30 p-1 mb-4 relative cursor-pointer group">
+          <div class="w-full h-full rounded-full overflow-hidden">
+            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" id="sidebar-avatar" src="https://ui-avatars.com/api/?name=Student&background=222&color=E2B875"/>
+          </div>
+        </div>
+        <h3 class="font-display font-semibold text-xl text-on-surface mb-1" id="user-name">Loading...</h3>
+        <p class="ui-text text-[10px] text-gold-dim" id="user-role">Student Account</p>
+      </div>
+
+      <nav class="flex-1 py-4 flex flex-col gap-1 px-4">
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 border-l-2 border-gold-leaf text-gold-leaf transition-all" href="#">
+          <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">space_dashboard</span>
+          <span class="ui-text text-[11px] font-medium">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-titanium-muted hover:text-e5e2e1 hover:bg-white/5 transition-all border-l-2 border-transparent" href="#">
+          <span class="material-symbols-outlined text-[18px]">person</span>
+          <span class="ui-text text-[11px] font-medium">Profile</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-titanium-muted hover:text-e5e2e1 hover:bg-white/5 transition-all border-l-2 border-transparent" href="#">
+          <span class="material-symbols-outlined text-[18px]">work</span>
+          <span class="ui-text text-[11px] font-medium">Opportunities</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 md:ml-64 p-margin-mobile md:p-8 w-full min-h-screen">
+      <header class="mb-10">
+        <h1 class="display-headline text-4xl mb-2" id="welcome-message">Welcome back</h1>
+        <p class="font-body text-titanium-muted text-sm">Here's your strategic placement trajectory at a glance.</p>
+      </header>
+
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <!-- Readiness Score -->
+        <div class="glass-card rounded-xl p-6 relative group overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-gold-leaf/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="flex items-start justify-between relative z-10">
+            <div>
+              <h4 class="ui-text text-[10px] text-titanium-muted mb-4">Readiness Index</h4>
+              <div class="flex items-end gap-2">
+                <span class="font-display font-bold text-5xl text-soft-white" id="readiness-score">--</span>
+                <span class="font-body text-gold-leaf mb-2 font-medium">%</span>
+              </div>
+            </div>
+            <div class="w-16 h-16 flex items-center justify-center">
+              <span class="material-symbols-outlined text-gold-leaf text-4xl" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Applications -->
+        <div class="glass-card rounded-xl p-6 relative group overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-crimson-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="flex flex-col justify-between h-full relative z-10">
+            <div class="flex justify-between items-start mb-4">
+              <h4 class="ui-text text-[10px] text-titanium-muted">Active Applications</h4>
+              <span class="material-symbols-outlined text-titanium-muted" style="font-variation-settings: 'FILL' 1;">work_history</span>
+            </div>
+            <div>
+              <span class="font-display font-bold text-5xl text-soft-white" id="applications-count">--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upcoming Interviews -->
+        <div class="glass-card rounded-xl p-6 relative group overflow-hidden">
+          <div class="flex flex-col justify-between h-full relative z-10">
+            <div class="flex justify-between items-start mb-4">
+              <h4 class="ui-text text-[10px] text-titanium-muted">Upcoming Interviews</h4>
+              <span class="material-symbols-outlined text-gold-leaf" style="font-variation-settings: 'FILL' 1;">event_available</span>
+            </div>
+            <div>
+              <span class="font-display font-bold text-5xl text-soft-white" id="interviews-count">--</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+        <!-- Live Intel Feed (Notifications) -->
+        <div class="glass-card rounded-xl flex flex-col h-full">
+          <div class="p-5 border-b border-glass-border">
+            <h3 class="font-display font-semibold text-xl text-soft-white">Live Intel Feed</h3>
+          </div>
+          <div class="p-6 flex flex-col gap-6" id="notifications-container">
+            <!-- Populated by JS -->
+            <p class="font-body text-sm text-titanium-muted text-center" id="notifications-loading">Loading feed...</p>
+          </div>
+        </div>
+
+        <!-- Missing Skills / Gap -->
+        <div class="glass-card rounded-xl flex flex-col h-full">
+          <div class="p-5 border-b border-glass-border">
+            <h3 class="font-display font-semibold text-xl text-soft-white">Skill Gap Analysis</h3>
+          </div>
+          <div class="p-6">
+            <p class="font-body text-sm text-titanium-muted mb-4">Skills highly requested in your target roles that you haven't evidenced yet.</p>
+            <div class="flex flex-wrap gap-2" id="skill-gap-container">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:8000';
+    let currentUser = null;
+
+    async function initDashboard() {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Fetch User Profile
+      try {
+        const userRes = await fetch(`${API_URL}/auth/me`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (userRes.status === 401) {
+          localStorage.removeItem('access_token');
+          window.location.href = 'login.html';
+          return;
+        }
+
+        currentUser = await userRes.json();
+        
+        // Populate UI
+        document.getElementById('user-name').innerText = currentUser.name;
+        document.getElementById('welcome-message').innerText = `Welcome back, ${currentUser.name.split(' ')[0]}`;
+        
+        const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=222&color=E2B875`;
+        document.getElementById('nav-avatar').src = avatarUrl;
+        document.getElementById('sidebar-avatar').src = avatarUrl;
+
+        // Fetch remaining data
+        fetchReadinessScore(currentUser.user_id, token);
+        fetchNotifications(token);
+        
+      } catch (err) {
+        console.error("Error loading profile:", err);
+      }
+    }
+
+    async function fetchReadinessScore(userId, token) {
+      try {
+        // Mock data until API is fully wired
+        const res = await fetch(`${API_URL}/students/${userId}/analytics/readiness-report`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('readiness-score').innerText = Math.round(data.readiness_score || 0);
+          renderSkillGaps(data.skill_gaps || []);
+        } else {
+          // Fallback demo data
+          document.getElementById('readiness-score').innerText = '72';
+          renderSkillGaps(['Docker', 'AWS', 'GraphQL']);
+          document.getElementById('applications-count').innerText = '4';
+          document.getElementById('interviews-count').innerText = '1';
+        }
+      } catch (err) {
+        console.error("Error fetching readiness:", err);
+        document.getElementById('readiness-score').innerText = '--';
+      }
+    }
+
+    function renderSkillGaps(skills) {
+      const container = document.getElementById('skill-gap-container');
+      container.innerHTML = '';
+      if(skills.length === 0) {
+        container.innerHTML = '<p class="text-sm text-titanium-muted">You have no major skill gaps!</p>';
+        return;
+      }
+      skills.forEach(skill => {
+        const el = document.createElement('span');
+        el.className = 'px-3 py-1 rounded bg-[#1f1b17] border border-gold-leaf/20 text-gold-leaf font-body text-sm font-medium';
+        el.innerText = skill;
+        container.appendChild(el);
+      });
+    }
+
+    async function fetchNotifications(token) {
+      try {
+        const res = await fetch(`${API_URL}/notifications`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          renderNotifications(data);
+        } else {
+          // Fallback demo data
+          renderNotifications([
+            { message: "Shortlisted for Microsoft SDE technical round.", created_at: "2 hours ago" },
+            { message: "New Opportunity: Adobe Research added to portal.", created_at: "5 hours ago" }
+          ]);
+        }
+      } catch (err) {
+        console.error("Error fetching notifications:", err);
+      }
+    }
+
+    function renderNotifications(notifications) {
+      const container = document.getElementById('notifications-container');
+      container.innerHTML = '';
+      
+      if (!notifications || notifications.length === 0) {
+        container.innerHTML = '<p class="font-body text-sm text-titanium-muted text-center">No recent notifications</p>';
+        return;
+      }
+
+      notifications.slice(0, 4).forEach((notif, index) => {
+        const isLast = index === notifications.length - 1;
+        const lineClass = isLast ? '' : "before:content-[''] before:absolute before:left-[5px] before:top-5 before:bottom-[-20px] before:w-[1px] before:bg-glass-border";
+        
+        container.innerHTML += `
+          <div class="flex gap-4 items-start relative ${lineClass}">
+            <div class="w-2.5 h-2.5 rounded-full bg-gold-leaf mt-1.5 relative z-10 shadow-[0_0_10px_rgba(226,184,117,0.5)]"></div>
+            <div>
+              <p class="font-body text-sm text-on-surface">${notif.message}</p>
+              <span class="ui-text text-[9px] text-titanium-muted mt-1 block">${notif.created_at || 'Recently'}</span>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function logout() {
+      localStorage.removeItem('access_token');
+      window.location.href = 'login.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', initDashboard);
+  </script>
+</body>
+</html>

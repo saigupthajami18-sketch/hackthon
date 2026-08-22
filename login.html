@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>PlacementOps AI — Login</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <!-- CHANGED FONTS: Inter for body (crisp, readable), Cormorant Garamond for headline (editorial luxury), Space Grotesk for labels/UI -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-background": "#e5e2e1",
+            "surface-container-high": "#2a2a2a",
+            "primary-container": "#dc2626",
+            "tertiary": "#ebc07c",
+            "glass-border": "rgba(255, 255, 255, 0.08)",
+            "surface": "#131313",
+            "secondary": "#cec5bf",
+            "titanium-accent": "#78716C",
+            "on-surface": "#e5e2e1",
+            "error-container": "#93000a",
+            "surface-variant": "#353534",
+            "primary": "#ffb4ab",
+            "on-primary": "#690005",
+            "surface-bright": "#3a3939",
+            "crimson-primary": "#DC2626",
+            "surface-elevated": "#121212",
+            "surface-container": "#201f1f",
+            "obsidian-base": "#0A0A0A",
+            "background": "#131313",
+            "crimson-deep": "#8B0000",
+            "gold-leaf": "#E2B875",
+            "gold-dim": "#B8924A",
+            "titanium-muted": "#78716C",
+            "soft-white": "#F5F0EB",
+            "warm-gray": "#A89F98"
+          },
+          borderRadius: {
+            "DEFAULT": "0.125rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "display": ["Cormorant Garamond", "serif"],
+            "ui": ["Space Grotesk", "sans-serif"],
+            "body": ["Inter", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #0A0A0A;
+      color: #e5e2e1;
+      margin: 0;
+      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Hero ──────────────────────────────── */
+    .hero-bg {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 800px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-img-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      box-shadow: inset 0 -150px 150px -50px #0A0A0A;
+    }
+
+    .hero-img-layer::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+          rgba(10, 10, 10, 0.55) 0%,
+          rgba(10, 10, 10, 0.75) 60%,
+          #0A0A0A 100%);
+    }
+
+    /* ── Big watermark text ─────────────────── */
+    .bg-text-layer {
+      position: absolute;
+      top: 46%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      width: 100%;
+      text-align: center;
+      pointer-events: none;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .bg-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 28vw;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.04);
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+    }
+
+    /* ── Glass Card ─────────────────────────── */
+    .glass-card {
+      background: rgba(12, 11, 11, 0.72);
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 1rem;
+      box-shadow:
+        0 48px 96px -24px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        inset 0 0 60px -40px rgba(220, 38, 36, 0.1);
+    }
+
+    /* ── Headline — Cormorant Garamond ────── */
+    .display-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-style: italic;
+      font-size: clamp(52px, 9vw, 72px);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      /* Crimson-to-gold gradient — premium, warm */
+      background: linear-gradient(135deg, #FF6B6B 0%, #DC2626 40%, #E2B875 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Sub-label — Space Grotesk ──────── */
+    .sub-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 400;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      /* Warm gold instead of flat gray */
+      color: #B8924A;
+    }
+
+    /* ── Role Tabs — Space Grotesk ─────── */
+    .role-tab {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 12px 0;
+      border-bottom: 1.5px solid rgba(255, 255, 255, 0.05);
+      color: #5a5450;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      background: transparent;
+      flex: 1;
+    }
+
+    .role-tab:hover:not(.active) {
+      color: #A89F98;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .role-tab.active {
+      color: #E2B875;
+      /* Gold — premium active state */
+      border-bottom: 1.5px solid #E2B875;
+    }
+
+    /* ── Field Labels — Space Grotesk ──── */
+    .field-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #A89F98;
+      /* Warm gray — more readable than flat #78716C */
+    }
+
+    /* ── Forgot link ─────────────────────── */
+    .forgot-link {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      color: #78716C;
+      transition: color 0.2s ease;
+      text-decoration: none;
+    }
+
+    .forgot-link:hover {
+      color: #E2B875;
+    }
+
+    /* ── Input ───────────────────────────── */
+    .input-glass {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #F5F0EB;
+      /* Soft warm white — not harsh pure white */
+      background-color: rgba(5, 4, 4, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 0.5rem;
+      padding: 14px 14px 14px 46px;
+      width: 100%;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .input-glass:focus {
+      outline: none;
+      border-color: rgba(226, 184, 117, 0.4);
+      /* Gold tint on focus */
+      box-shadow: 0 0 0 3px rgba(226, 184, 117, 0.06), 0 0 20px rgba(220, 38, 36, 0.12);
+      caret-color: #E2B875;
+    }
+
+    .input-glass::placeholder {
+      color: #4a4540;
+      /* Subtler placeholder */
+      font-weight: 300;
+    }
+
+    /* ── Primary Button ──────────────────── */
+    .btn-primary {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #FFF5F5;
+      background: linear-gradient(175deg, #E03535 0%, #B91C1C 50%, #7F1D1D 100%);
+      border-top: 1px solid rgba(255, 120, 120, 0.25);
+      border-radius: 0.5rem;
+      padding: 15px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -6px rgba(139, 0, 0, 0.45);
+      filter: brightness(1.08);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+      transition: all 0.1s;
+    }
+
+    /* ── Divider ─────────────────────────── */
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      margin: 0;
+    }
+
+    /* ── Footer text ─────────────────────── */
+    .footer-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      color: #5a5450;
+    }
+
+    .footer-link {
+      color: #A89F98;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(168, 159, 152, 0.3);
+      transition: color 0.2s ease;
+    }
+
+    .footer-link:hover {
+      color: #E2B875;
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+
+
+
+  <!-- ── Hero ─────────────────────────────────────────────────────── -->
+  <main class="hero-bg">
+
+    <!-- Background photo -->
+    <div class="hero-img-layer"
+      style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD4VJOnqS57nkLj3oxDZivZZVEnOEvV3WxaD4nkh_Xdx6JeWCwujXzUM7gxqZNQnQ6WRok2l6fw0KQdOUtIoaNDAjmVgNlyMxPBNq5Vq4g0EWqPtXAx2rJRT8IO4QyDrZv-BOcclvk3J0-ivfO_Oa-qJ1boIFrAxBGs2kwKEfZo-_3yr8uSgkg2OZK1Kwifq15TTazVpAXyQxBxDSHLctHzBuQauadMaQvfrSV0xKFuBMFbcbcxtl8tzbuFCz9rvBIodg')">
+    </div>
+
+    <!-- Watermark text -->
+    <div class="bg-text-layer">
+      <div class="bg-text">OPS</div>
+    </div>
+
+    <!-- Login Card -->
+    <div style="position:relative; z-index:10; width:100%; max-width:460px; padding:0 20px; pointer-events:auto;">
+      <div class="glass-card" style="padding:44px 40px; display:flex; flex-direction:column; gap:32px;">
+
+        <!-- Header -->
+        <div style="text-align:center; display:flex; flex-direction:column; gap:8px;">
+          <h1 class="display-headline">Campus Connect</h1>
+          <p class="sub-label">AI-Powered Campus Placement Platform</p>
+        </div>
+
+        <!-- Role Tabs -->
+        <div style="display:flex; border-bottom:1px solid rgba(255,255,255,0.04); margin-top:4px;">
+          <button class="role-tab" onclick="setActiveTab(this)">Student</button>
+          <button class="role-tab active" onclick="setActiveTab(this)">Institution</button>
+          <button class="role-tab" onclick="setActiveTab(this)">Corporate</button>
+        </div>
+
+        <!-- Form -->
+        <form id="login-form" style="display:flex; flex-direction:column; gap:20px;">
+
+          <!-- Email -->
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <label class="field-label" for="email">Email Address</label>
+            <div style="position:relative;">
+              <span class="material-symbols-outlined" style="
+              position:absolute; left:14px; top:50%; transform:translateY(-50%);
+              color:#4a4540; font-size:18px;
+              font-variation-settings:'FILL' 0;
+            ">mail</span>
+              <input class="input-glass" id="email" type="email" placeholder="name@institution.edu" />
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <label class="field-label" for="password">Password</label>
+              <a class="forgot-link" href="#">Forgot password?</a>
+            </div>
+            <div style="position:relative;">
+              <span class="material-symbols-outlined" style="
+              position:absolute; left:14px; top:50%; transform:translateY(-50%);
+              color:#4a4540; font-size:18px;
+              font-variation-settings:'FILL' 0;
+            ">lock</span>
+              <input class="input-glass" id="password" type="password" placeholder="Enter your password"
+                style="padding-right:46px;" />
+              <button type="button" onclick="togglePassword()" style="
+                position:absolute; right:14px; top:50%; transform:translateY(-50%);
+                background:none; border:none; cursor:pointer;
+                color:#4a4540; transition:color 0.2s ease;
+                display:flex; align-items:center;
+              " onmouseover="this.style.color='#A89F98'" onmouseout="this.style.color='#4a4540'">
+                <span class="material-symbols-outlined" id="eye-icon"
+                  style="font-size:18px; font-variation-settings:'FILL' 0;">visibility_off</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button class="btn-primary" type="submit" style="margin-top:4px;">
+            Sign In
+            <span class="material-symbols-outlined"
+              style="font-size:16px; font-variation-settings:'FILL' 0;">arrow_forward</span>
+          </button>
+
+        </form>
+
+        <!-- Divider + Footer -->
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <hr class="divider" />
+          <p class="footer-text" style="text-align:center;">
+            New to Campus Connect AI?
+            <a class="footer-link" href="register.html">Create an account</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function setActiveTab(el) {
+      document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function togglePassword() {
+      const pw = document.getElementById('password');
+      const icon = document.getElementById('eye-icon');
+      if (pw.type === 'password') {
+        pw.type = 'text';
+        icon.textContent = 'visibility';
+      } else {
+        pw.type = 'password';
+        icon.textContent = 'visibility_off';
+      }
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      const btn = e.target.querySelector('button[type="submit"]');
+      const origText = btn.innerHTML;
+      btn.innerHTML = 'Signing In...';
+      btn.disabled = true;
+      
+      try {
+        const formData = new URLSearchParams();
+        formData.append('username', email); // OAuth2 expects 'username'
+        formData.append('password', password);
+        
+        const res = await fetch('http://localhost:8000/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          localStorage.setItem('access_token', data.access_token);
+          
+          // Let's check who logged in to redirect correctly
+          const meRes = await fetch('http://localhost:8000/auth/me', {
+            headers: { 'Authorization': 'Bearer ' + data.access_token }
+          });
+          const user = await meRes.json();
+          
+          if (user.role === 'student') window.location.href = 'student-dashboard.html';
+          else if (user.role === 'college_admin') window.location.href = 'college-dashboard.html';
+          else if (user.role === 'company_recruiter') window.location.href = 'company-dashboard.html';
+          else window.location.href = 'student-dashboard.html';
+        } else {
+          alert('Login failed: Invalid credentials');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Could not connect to the backend API. Is it running on port 8000?');
+      } finally {
+        btn.innerHTML = origText;
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+
+</html>

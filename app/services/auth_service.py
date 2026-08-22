@@ -12,8 +12,6 @@ from fastapi import HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 
 from app.config import settings
-from app.models.user import User
-from app.models import UserRole
 from app.schemas.auth import TokenData
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -35,14 +33,10 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
     else:
         expire = datetime.now(timezone.utc) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
-    return encoded_jwt
+    return jwt.encode(to_encode, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
 
 
-async def get_current_user(
-    token: str = Depends(oauth2_scheme),
-    # Note: DB session injection is typically handled at the router level, but for decoding we don't strictly need it unless checking user exists
-) -> TokenData:
+async def get_current_user(token: str = Depends(oauth2_scheme)) -> TokenData:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -55,14 +49,10 @@ async def get_current_user(
         org_id: str = payload.get("org_id")
         if user_id is None or role is None:
             raise credentials_exception
-        token_data = TokenData(user_id=user_id, role=role, org_id=org_id)
+        return TokenData(user_id=user_id, role=role, org_id=org_id)
     except JWTError:
         raise credentials_exception
-    return token_data
 
 
-async def get_current_active_user(
-    current_user: TokenData = Depends(get_current_user),
-) -> TokenData:
-    # Here you'd ideally check if user is verified/active in DB
+async def get_current_active_user(current_user: TokenData = Depends(get_current_user)) -> TokenData:
     return current_user
