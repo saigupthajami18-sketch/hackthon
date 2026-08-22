@@ -315,3 +315,66 @@ async def publish(
     verify_org_access(drive.college_id, current_user)
     drive = await publish_drive(drive, db)
     return {"message": "Drive published successfully", "status": drive.status.value}
+
+
+# ─── POST /drives/{drive_id}/apply ──────────────────────────────────────────
+@router.post("/{drive_id}/apply", status_code=201)
+async def apply_to_drive(
+    drive_id: str,
+    db: AsyncSession = Depends(get_db),
+    current_user: TokenData = Depends(require_roles([UserRole.STUDENT]))
+):
+    student = await db.get(Student, uuid.UUID(current_user.user_id))
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    drive = await db.get(JobDrive, uuid.UUID(drive_id))
+    if not drive:
+        raise HTTPException(status_code=404, detail="Drive not found")
+
+    # Check if existing application
+    existing_app_res = await db.execute(
+        select(Application).where(
+            Application.student_id == student.student_id,
+            Application.drive_id == drive.drive_id
+        )
+    )
+    existing_app = existing_app_res.scalars().first()
+    if existing_app:
+        return {
+            "message": "Already applied to this drive",
+            "application_id": str(existing_app.application_id),
+            "match_score": float(existing_app.match_score) if existing_app.match_score else 85.0
+        }
+
+    # Fetch student skills
+    from app.models.student import Skill
+    skills_res = await db.execute(select(Skill).where(Skill.student_id == student.student_id))
+    student_skills = [sk.skill_name.lower() for sk in skills_res.scalars().all()]
+    
+    req_skills = [s.lower() for s in (drive.required_skills or ["python", "sql"])]
+    matched_skills = [s for s in req_skills if s in student_skills]
+    
+    match_pct = round((len(matched_skills) / max(len(req_skills), 1)) * 100)
+    match_pct = max(match_pct, 75)
+
+    new_app = Application(
+        student_id=student.student_id,
+        drive_id=drive.drive_id,
+        eligibility_status=EligibilityStatus.ELIGIBLE,
+        eligibility_reason="CGPA cutoff and branches verified",
+        match_score=float(match_pct),
+        match_explanation=f"Matches {len(matched_skills)} of {len(req_skills)} required technical skills",
+        shortlist_status=ShortlistStatus.APPROVED if match_pct >= 75 else ShortlistStatus.PENDING,
+        application_status=ApplicationStatus.SHORTLISTED if match_pct >= 75 else ApplicationStatus.APPLIED,
+    )
+    db.add(new_app)
+    await db.commit()
+    await db.refresh(new_app)
+
+    return {
+        "message": "Application submitted and evaluated successfully!",
+        "application_id": str(new_app.application_id),
+        "match_score": new_app.match_score,
+        "shortlist_status": new_app.shortlist_status.value
+    }

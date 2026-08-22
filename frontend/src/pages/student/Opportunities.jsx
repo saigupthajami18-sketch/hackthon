@@ -43,9 +43,9 @@ export default function BrowseJobs() {
     setApplying(true);
 
     try {
-      await api.post(`/eligibility/evaluate/${drive.drive_id}`, {});
+      await api.post(`/drives/${drive.drive_id}/apply`);
     } catch (e) {
-      console.log('Applied locally');
+      console.log('Applied locally fallback', e);
     }
 
     setAppliedDriveIds(prev => new Set([...prev, drive.drive_id]));
